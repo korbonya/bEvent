@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect} from "react";
 import {
 	Box,
 	Heading,
@@ -18,10 +18,11 @@ LogBox.ignoreLogs(['NativeBase:']);
 
 export const SignupScreen = ({navigation}) => {
 	const [show, setShow] = React.useState(false);
-    const [signup, {data:msg, error, isError, isSuccess , isLoading}] = useSignUpMutation()
+    const [signup, {data:response, error, isError, isSuccess , isLoading}] = useSignUpMutation()
 	const {
 		control,
 		handleSubmit,
+		watch,
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
@@ -31,21 +32,30 @@ export const SignupScreen = ({navigation}) => {
 			password: "",
 		},
 	});
-    console.log('is loading:', isLoading)
-    console.log('is error ', isError)
-    console.log('the data ', msg)
-    console.log('is Success', isSuccess )
-    
+	useEffect(()=>{
+		if(isSuccess ) {
+			console.log('response', response)
+			navigation.navigate('Validate', {
+				telephone:watch('telephone'),
+				password:watch('password')
+			})
+		}else if(isError) {
+			console.log('the error ::', error)
+		}
+	},[isError, isSuccess])
+
+    console.log('the response ', response)
+
 	const onSubmit = async (data) => {
        await signup(data)
-       if(isSuccess ) {
-           console.log('response', msg)
-           navigation.navigate('Validate', {
-               telephone:data.telephone
-           })
-       }else if(isError) {
-           console.log('the error ::', error)
-       }
+    //    if(isSuccess ) {
+    //        console.log('response', response)
+    //        navigation.navigate('Validate', {
+    //            telephone:data.telephone
+    //        })
+    //    }else if(isError) {
+    //        console.log('the error ::', error)
+    //    }
     }
 	return (
 		<>

@@ -3,7 +3,7 @@ import { api } from "../../app/api";
 export const authApi = api.injectEndpoints({
     endpoints:(builder) => ({
         login:builder.mutation({
-            providesTags:['auth'],
+            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/login',
                 method:'POST',
@@ -11,7 +11,7 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         signUp:builder.mutation({
-            providesTags:['auth'],
+            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/register',
                 method:'POST',
@@ -19,7 +19,7 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         validation:builder.mutation({
-            providesTags:['auth'],
+            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/validation-account',
                 method:'POST',
@@ -27,7 +27,7 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         sendCodeAgain:builder.mutation({
-            providesTags:['auth'],
+            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/send-code-again',
                 method:'POST',
@@ -35,14 +35,14 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         logout:builder.mutation({
-            providesTags:['auth'],
+            invalidatesTags:['auth'],
             query:() => ({
                 url:'/logout',
                 method:'POST',
             }),
         }),
         resetPassword:builder.mutation({
-            providesTags:['auth'],
+            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/reset-password',
                 method:'POST',
@@ -50,13 +50,14 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         getProfile:builder.query({
+            providesTags:['auth'],
             query:(identifiant) => ({
                 url:`/profil/${identifiant}`,
                 method:'GET',
             }),
         }),
         modifyProfil:builder.mutation({
-            providesTags:['auth'],
+            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/update-profil',
                 method:'PUT',
@@ -64,7 +65,7 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         changePassword:builder.mutation({
-            providesTags:['auth'],
+            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/change-password',
                 method:'PUT',

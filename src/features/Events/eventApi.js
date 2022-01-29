@@ -3,12 +3,14 @@ import {api} from '../../app/api'
 const eventApi = api.injectEndpoints({
     endpoints: (build) => ({
         getEvents: build.query({
-            providesTags:['event'],
-            query:()=> '/evenements'
+            query:()=> '/evenements',
+            providesTags:(result, error, arg) => 
+            result?[...result.map(({id}) => ({type:'event', id})), 'event']:['event'],
         }),
         getCategories: build.query({
-            providesTags:['event'],
-            query:()=> '/categories'
+            query:()=> '/categories',
+            providesTags:(result, error, arg) => 
+            result?[...result.map(({id}) => ({type:'event', id})), 'event']:['event'],
         }),
         getEvent:build.query({
             providesTags:['event'],

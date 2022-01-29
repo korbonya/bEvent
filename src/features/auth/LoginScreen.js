@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect} from "react";
 import {
 	Box,
 	Heading,
@@ -9,16 +9,18 @@ import {
 	ScrollView,
 	Link,
 } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useForm, Controller } from "react-hook-form";
 import { LogBox } from "react-native";
+import {useLoginMutation} from './authApi'
+import {rootState} from '../../app/store'
 
 
 LogBox.ignoreLogs(['NativeBase:']);
 
 export const LoginScreen = ({navigation}) => {
 	const [show, setShow] = React.useState(false);
+	const [login, {data, isLoading, isError, isSuccess}] = useLoginMutation()
 	const {
 		control,
 		handleSubmit,
@@ -29,7 +31,19 @@ export const LoginScreen = ({navigation}) => {
 			password: "",
 		},
 	});
-	const onSubmit = (data) => console.log(data);
+	useEffect(()=>{
+		if(isSuccess){
+			console.log('suceess')
+			console.log('the state', rootState.auth)
+		}else if(isError){
+			console.log('the errror is ', isError)
+		}
+	})
+	const onSubmit = async (data) => {
+		if(data){
+			await login(data)
+		}
+	}
 	return (
 		<>
 			<AppBar2 navigation={navigation} title={"Compte"} />

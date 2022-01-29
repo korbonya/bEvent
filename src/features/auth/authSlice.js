@@ -12,16 +12,16 @@ const authSlice = createSlice({
     initialState,
     reducers:{},
     extraReducers:(builder) => {
-        builder.addMatcher(authApi.endpoints.login.matchFulfilled, async (state, {payload}) => {
+        builder.addMatcher(authApi.endpoints.login.matchFulfilled,  (state, {payload}) => {
             state.isLoggedIn = true;
             state.user = payload;
-            await saveUser(payload)
+            console.log('the payload',payload)
+            console.log('the islogged ', state.isLoggedIn)
             return state
         })
-        .addMatcher(authApi.endpoints.logout.matchFulfilled, async (state) => {
+        .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
             state.isLoggedIn = false
             state.user = null
-            await deleteUser()
             return state
         })
     }

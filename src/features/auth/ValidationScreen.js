@@ -1,14 +1,27 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Box, Center, VStack, Button, Input, Heading, Text  } from 'native-base'
 import {useValidationMutation, useSendCodeAgainMutation, useLoginMutation} from './authApi'
+import { saveUser } from '../../common/utils/secureStore'
 
 export default function ValidationScreen({route, navigation}) {
-    const [validate, {isLoading, isSucces, error , isError}] = useValidationMutation()
+    const [validate, {data, isLoading, isSuccess}] = useValidationMutation()
     const [sendAgain] = useSendCodeAgainMutation()
-    const [login] = useLoginMutation()
-    const telephone = route.params?.telephone
-    const [code, setCode] = useState(0)
+    const [login, {data:userData}] = useLoginMutation()
+    const {telephone, password} = route.params
+    const [code, setCode] = useState("")
 
+    useEffect(async ()=>{
+        if(isSuccess){
+            await login({telephone, password})
+        }
+    },[isSuccess])
+    useEffect(async ()=> {
+        if(userData){
+            await saveUser(userData)
+            navigation.navigate('Home')
+        }
+    },[])
+    console.log('user Data', userData)
     const handleSubmit = async () => {
         await validate({
             telephone,
@@ -18,6 +31,8 @@ export default function ValidationScreen({route, navigation}) {
            navigation.navigate('Login')
         }
     }
+    console.log('le telephone', telephone)
+    console.log('the response req::', data)
     const sendCodeAgain = async () => {
         if(telephone) await sendAgain(telephone)
     }
