@@ -1,19 +1,32 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
 	Box,
 	HStack,
 	VStack,
 	Spacer,
 	Text,
-	FlatList,
 	Heading,
-	Button,
 	ScrollView,
-	Fab,
+	Input,
+	Actionsheet,
+	useDisclose,
+	Button,
 } from "native-base";
 import AppBar2 from "../../common/components/headers/AppBar2";
+import { useProvideBalanceMutation, useGetBalanceQuery } from "./balanceApi";
 
 export default function BalanceScreen() {
+	const { data, isLoading, error } = useGetBalanceQuery();
+	const [montant, setMontant] = useState('')
+	const [password, setPassword] = useState('')
+	const [
+		provideBalance,
+		{data:response, isLoading: loadProvide, isSuccess },
+	] = useProvideBalanceMutation();
+	const { isOpen, onOpen, onClose } = useDisclose();
+	console.log('the response', response)
+	console.log('le solde  ', data)
+	console.log('is error ', error)
 	return (
 		<ScrollView>
 			<AppBar2 title={"Mon Solde"} />
@@ -28,12 +41,12 @@ export default function BalanceScreen() {
 				>
 					<Heading fontWeight={"semibold"}>Votre Solde</Heading>
 					<Text bold pt={"10"} fontSize={"3xl"}>
-						5 000 000 GNF
+						{data ? data.solde + " GNF" : "..."}
 					</Text>
 				</Box>
 				<Box px='5'>
 					<Heading pb={"5"}>Liste des Transactions</Heading>
-					{[1, 3, 4, 5].map((i) => (
+					{data?.recharges?.map((rech) => (
 						<Box
 							key={i}
 							borderBottomWidth='1'
@@ -54,7 +67,7 @@ export default function BalanceScreen() {
 										color='coolGray.800'
 										bold
 									>
-										Recharge
+										{data?.operateur}
 									</Text>
 									<Text
 										color='coolGray.600'
@@ -62,7 +75,7 @@ export default function BalanceScreen() {
 											color: "warmGray.200",
 										}}
 									>
-										50 000 GNF
+										{data?.montant} GNF
 									</Text>
 								</VStack>
 								<Spacer />
@@ -80,15 +93,34 @@ export default function BalanceScreen() {
 						</Box>
 					))}
 				</Box>
-				<Fab
-					shadow={"0"}
-					renderInPortal={false}
-					rounded={"lg"}
-					mb={"5"}
-					colorScheme='blue'
-					placement='bottom'
-					label='Recharger votre compte'
-				/>
+				{data?.recharges.length === 0 && (
+					<Box mx={'5'} my={'10'}>
+						<Text fontSize={'lg'} textAlign={'center'}>Aucune Transactions</Text>
+					</Box>
+				)}
+				<Button mx={'5'} onPress={onOpen}>Rechargez votre compte</Button>
+				<Actionsheet isOpen={isOpen} onClose={onClose}>
+					<Actionsheet.Content>
+						<Box w='100%' h={60} px={4} justifyContent='center'>
+							<Text
+								fontSize='16'
+								color='gray.500'
+								_dark={{
+									color: "gray.300",
+								}}
+							>
+								Réchargez votre compte
+							</Text>
+						</Box>
+						<Actionsheet.Item>
+							<Input value={montant} onChangeText={(val) => setMontant(val)} placeholder="Numéro de téléphone"/>
+						</Actionsheet.Item>
+						<Actionsheet.Item>
+							<Input value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
+						</Actionsheet.Item>
+						<Button  onPress={async() => await provideBalance({montant, password})}>Valider</Button>
+					</Actionsheet.Content>
+				</Actionsheet>
 			</Box>
 		</ScrollView>
 	);

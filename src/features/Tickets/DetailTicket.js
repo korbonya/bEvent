@@ -17,7 +17,9 @@ import QRCode from "react-native-qrcode-svg";
 import { Ionicons } from "@expo/vector-icons";
 import AppBar2 from "../../common/components/headers/AppBar2";
 
-export default function DetailTicket() {
+export default function DetailTicket({route, navigation}) {
+	const {data} = route.params
+	console.log(data)
 	return (
 		<Box>
 			<AppBar2 title="Ticket" />
@@ -33,17 +35,17 @@ export default function DetailTicket() {
 									_dark={{ color: "warmGray.50" }}
 									bold
 								>
-									Ticket argent
+									{data.type}
 								</Text>
 								<Text color='primary.700' bold fontSize='lg' _dark={{ color: "warmGray.200" }}>
-									Remise de diplome UNC
+									{data.evenement}
 								</Text>
                                 <Text mt={'4'} >Date:</Text>
-								<Text bold>20-01-2022 à 11:00</Text>
+								<Text bold>{data.date}</Text>
 							</VStack>
 							<Spacer />
 							<VStack>
-								<Text
+								{/* <Text
 									fontSize='xs'
 									color='coolGray.800'
 									_dark={{ color: "warmGray.50" }}
@@ -51,7 +53,7 @@ export default function DetailTicket() {
 								>
 									Tickets
 								</Text>
-								<Text bold fontSize={'md'}>40</Text>
+								<Text bold fontSize={'md'}>40</Text> */}
                                 <Button variant={'outline'} mt={'4'}>Carte</Button>
 							</VStack>
 						</HStack>

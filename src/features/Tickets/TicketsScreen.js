@@ -6,7 +6,7 @@ import {
   Text,
   Pressable,
   Heading,
-  IconButton,
+  ScrollView,
   Icon,
   HStack,
   Avatar,
@@ -16,6 +16,7 @@ import {
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
 import AppBar2 from '../../common/components/headers/AppBar2';
+import { useGetTicketsQuery } from './ticketApi';
 
 export default function TicketsScreen({navigation}) {
   const data = [
@@ -57,9 +58,9 @@ export default function TicketsScreen({navigation}) {
       recentText: 'I will call today.',
       avatarUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-    },
+    }, 
   ];
-
+  const {data:tickets, isLoading, isSuccess} = useGetTicketsQuery()
   const [listData, setListData] = useState(data);
 
   const closeRow = (rowMap, rowKey) => {
@@ -81,10 +82,10 @@ export default function TicketsScreen({navigation}) {
   };
 
   const renderItem = ({ item, index }) => (
-    <Box shadow={'0'} bgColor={'coolGray.50'} my='2' borderRadius='lg'>
-				<Pressable onPress={() => navigation.push('DetailTicket')}>
+    <Box key={index} shadow={'0'} bgColor={'coolGray.50'} my='2' borderRadius='lg'>
+				<Pressable onPress={() => navigation.push('DetailTicket', {data:item})}>
 					<Box pl='4' pr='5' py='2'>
-						<HStack alignItems='center' space={3}>
+						<HStack pr={'2'} space={3}>
 							{/* <Avatar size="48px" source={{ uri: item.avatarUrl }} /> */}
 							<VStack>
 								<Text
@@ -92,25 +93,25 @@ export default function TicketsScreen({navigation}) {
 									_dark={{ color: "warmGray.50" }}
 									bold
 								>
-									Ticket argent
+									{item?.type}
 								</Text>
 								<Text color='primary.700' bold fontSize='lg' _dark={{ color: "warmGray.200" }}>
-									Remise de diplome UNC
+									{item.evenement}
 								</Text>
                                 <Text mt={'4'} >Date:</Text>
-								<Text bold>20-01-2022 à 11:00</Text>
+								<Text bold>{item.date}</Text>
 							</VStack>
 							<Spacer />
-							<VStack>
+							<VStack >
 								<Text
 									fontSize='xs'
 									color='coolGray.800'
 									_dark={{ color: "warmGray.50" }}
 									alignSelf='flex-start'
 								>
-									Tickets
+									Prix
 								</Text>
-								<Text bold fontSize={'md'}>40</Text>
+								<Text bold fontSize={'md'}>{(item?.montant) + " GNF"}</Text>
                                 {/* <Button variant={'outline'} mt={'4'}>Carte</Button> */}
 							</VStack>
 						</HStack>
@@ -136,7 +137,7 @@ export default function TicketsScreen({navigation}) {
             color="coolGray.800"
           />
           <Text fontSize="xs" fontWeight="medium" color="coolGray.800">
-            More
+            Plus
           </Text>
         </VStack>
       </Pressable>
@@ -151,7 +152,7 @@ export default function TicketsScreen({navigation}) {
         <VStack alignItems="center" space={2}>
           <Icon as={<MaterialIcons name="delete" />} color="white" size="xs" />
           <Text color="white" fontSize="xs" fontWeight="medium">
-            Delete
+            Suprimer
           </Text>
         </VStack>
       </Pressable>
@@ -163,7 +164,7 @@ export default function TicketsScreen({navigation}) {
    <AppBar2 title='Mes Tickets' />
      <Box px='2' bg="white" safeArea flex="1">
       <SwipeListView
-        data={listData}
+        data={tickets}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         rightOpenValue={-130}

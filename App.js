@@ -2,7 +2,6 @@ import * as React from "react";
 import { NativeBaseProvider, Box } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./src/features/home/HomeScreen";
 import DetailEventScreen from "./src/features/Events/DetailEventScreen";
@@ -12,8 +11,6 @@ import BalanceScreen from "./src/features/Solde/BalanceScreen";
 import ProfilScreen from "./src/features/auth/ProfilScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SignupScreen } from "./src/features/auth/SignupScreen";
-import Home from './src/features/home/Index'
-import Tickets from './src/features/Tickets/Index'
 import ValidationScreen from "./src/features/auth/ValidationScreen";
 import { LoginScreen } from "./src/features/auth/LoginScreen";
 import AuthScreen from "./src/features/auth/AuthScreen";
@@ -26,13 +23,15 @@ import { theme } from "./src/app/theme";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const isLoggedIn = rootState.auth.isLoggedIn
-
 
 function HomeTabs() {
+  const {isLoggedIn} = useSelector(state => state.auth)
+  console.log('the user is ', isLoggedIn)
   return (
     <Tab.Navigator
+    
     screenOptions={({ route }) => ({
+      lazy:true,
       tabBarStyle:{
         backgroundColor:'#E6F6FF',
         height:75,
@@ -82,7 +81,6 @@ export default function App() {
 
 // console.log('it is the islgged :::', user)
 
-console.log('the user is ', isLoggedIn)
 	return (      
   <Provider store={store}>
 
@@ -107,6 +105,5 @@ console.log('the user is ', isLoggedIn)
 		</NativeBaseProvider>      
     
   </Provider>
-
 	);
 }

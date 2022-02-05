@@ -7,13 +7,15 @@ export const api = createApi({
         prepareHeaders: async (headers) => {
             const user = JSON.parse(await getUser())
             const hasUser = user && user?.access_token
+            
+            if (hasUser) headers.set('Authorization', `Bearer ${user?.access_token}`)
 
-            if (hasUser) headers.set('Authorization', `Bearer ${user?.acces_token}`)
-
+             headers.set('Content-Type', 'application/json')
+             headers.set('Accept', 'application/json')
             return headers
         }
     }),
     endpoints:() => ({}),
     reducerPath:'api',
-    tagTypes:['event', 'auth', 'balance', 'tiket'] 
+    tagTypes:['event','categories', 'auth', 'balance', 'tiket'] 
 })

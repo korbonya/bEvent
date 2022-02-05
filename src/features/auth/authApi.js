@@ -17,6 +17,7 @@ export const authApi = api.injectEndpoints({
                 method:'POST',
                 body
             }),
+            overrideExisting:true
         }),
         validation:builder.mutation({
             invalidatesTags:['auth'],
@@ -49,13 +50,14 @@ export const authApi = api.injectEndpoints({
                 body
             }),
         }),
-        getProfile:builder.query({
-            providesTags:['auth'],
-            query:(identifiant) => ({
-                url:`/profil/${identifiant}`,
-                method:'GET',
-            }),
+        getProfil:builder.query({
+            providesTags:(result, error, id) => [{ type: 'auth', id }],
+            query:() => `/profil`
         }),
+        // getBalance:builder.query({
+        //     providesTags:['auth'],
+        //     query:() => `/solde`,
+        // }),
         modifyProfil:builder.mutation({
             invalidatesTags:['auth'],
             query:(body) => ({

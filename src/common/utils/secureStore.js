@@ -7,7 +7,7 @@ export async function saveUser(value) {
 
 export async function getUser() {
   let result = await SecureStore.getItemAsync('user');  
-  return JSON.parse(result)
+  return result
 }
 
 export async function deleteUser() {

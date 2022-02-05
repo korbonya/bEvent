@@ -32,12 +32,13 @@ export default function ListTopEvents({data, navigation}) {
 						bgColor={'coolGray.50'}
 						borderRadius={'md'}
 						shadow={'2'}
+						width={'48'}
                         mx='2'
 						my='2'
 					>
 					<Pressable onPress={()=> navigation.push('DetailEvent', {id:item.id})}>
 					<VStack pb={'4'} justifyContent='space-between'>
-							<AspectRatio width='200px' ratio={4/3}>
+							<AspectRatio width='100%' ratio={1/1}>
 							<Image
 								borderTopRadius={'md'}
 								source={{
@@ -48,12 +49,12 @@ export default function ListTopEvents({data, navigation}) {
 							</AspectRatio>
 							<VStack pl='2'>
 							<Text
-						
-								fontSize='xs'
+								mt={'1'}
+								fontSize='sm'
 								_dark={{
 									color: "warmGray.50",
 								}}
-								color='primary.700'
+								color='primary.500'
 								alignSelf='flex-start'
 							>
 							 {dformat(item.date_debut, 'lll')}

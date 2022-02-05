@@ -14,13 +14,16 @@ import { useForm, Controller } from "react-hook-form";
 import { LogBox } from "react-native";
 import {useLoginMutation} from './authApi'
 import {rootState} from '../../app/store'
+import {useSelector} from 'react-redux'
+import { saveUser } from "../../common/utils/secureStore";
 
 
 LogBox.ignoreLogs(['NativeBase:']);
 
 export const LoginScreen = ({navigation}) => {
 	const [show, setShow] = React.useState(false);
-	const [login, {data, isLoading, isError, isSuccess}] = useLoginMutation()
+	const {isLoggedIn} = useSelector(state => state.auth)
+	const [login, {data, isLoading, isError, isSuccess, error}] = useLoginMutation()
 	const {
 		control,
 		handleSubmit,
@@ -31,12 +34,14 @@ export const LoginScreen = ({navigation}) => {
 			password: "",
 		},
 	});
-	useEffect(()=>{
+	useEffect(async ()=>{
 		if(isSuccess){
 			console.log('suceess')
-			console.log('the state', rootState.auth)
+			await saveUser(data)
+			navigation.navigate('Home')
 		}else if(isError){
 			console.log('the errror is ', isError)
+			console.log('the error :', error)
 		}
 	})
 	const onSubmit = async (data) => {
@@ -138,7 +143,7 @@ export const LoginScreen = ({navigation}) => {
 							name='password'
 						/>
 
-						<Button onPress={handleSubmit(onSubmit)} size={"lg"} mt='2'>
+						<Button isLoading={isLoading} isLoadingText="Connexion" onPress={handleSubmit(onSubmit)} size={"lg"} mt='2'>
 							Se Connecter
 						</Button>
 						<Link

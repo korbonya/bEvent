@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
 	Box,
 	FlatList,
@@ -8,9 +8,12 @@ import {
 	Pressable
 } from "native-base";
 
-export default function Tickets({data}) {
+export default function Tickets({ticketId, setTicketId, data}) {
 	const [active, setActive] = useState(1)
-
+	useEffect(()=> {
+		setActive(data[0]?.id)
+		setTicketId(data[0]?.id)
+	},[])
 	return (
 		<Box
 			w={{
@@ -31,7 +34,10 @@ export default function Tickets({data}) {
                         mx='2'
 						bgColor={active==item.id?'transparent':'gray.200'}
 					>
-					<Pressable onPress={()=> setActive(item.id)}>
+					<Pressable onPress={()=> {
+						setActive(item.id)
+						setTicketId(item.id)
+					}}>
 					<VStack space={3} justifyContent='center' alignItems={'center'}>
 							
 							<Text
