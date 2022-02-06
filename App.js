@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect, useCallback} from "react";
 import { NativeBaseProvider, Box } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,6 +16,9 @@ import { LoginScreen } from "./src/features/auth/LoginScreen";
 import AuthScreen from "./src/features/auth/AuthScreen";
 import { store } from "./src/app/store";
 import { rootState } from "./src/app/store";
+import { setStoredUser } from "./src/features/auth/authSlice";
+import { getUser } from "./src/common/utils/secureStore";
+import { useLoginMutation } from "./src/features/auth/authApi";
 import { Provider, useSelector } from "react-redux";
 
 import { theme } from "./src/app/theme";

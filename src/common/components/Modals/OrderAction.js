@@ -73,7 +73,7 @@ export default function OrderAction({
 	};
 	return (
 		<>
-			<Button size={"lg"} my={"5"} onPress={onOpen}>
+			<Button mx={'5'} size={"lg"} mt={'0'} mb={'5'} onPress={onOpen}>
 				Commander ce ticket
 			</Button>
 			<Actionsheet isOpen={isOpen} onClose={onClose}>

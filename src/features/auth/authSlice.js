@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { authApi } from "./authApi";
-import { saveUser, deleteUser } from "../../common/utils/secureStore";
 
 const initialState = {
     isLoggedIn : false,
@@ -10,7 +9,13 @@ const initialState = {
 const authSlice = createSlice({
     name:'userAuth',
     initialState,
-    reducers:{},
+    reducers:{
+        setStoredUser:(state, {payload}) =>{
+            state.isLoggedIn = true
+            state.user = payload
+            console.log('the state in action ', state)
+        }
+    },
     extraReducers:(builder) => {
         builder.addMatcher(authApi.endpoints.login.matchFulfilled,  (state, {payload}) => {
             state.isLoggedIn = true;
@@ -27,4 +32,6 @@ const authSlice = createSlice({
     }
 })
 
+export const {setStoredUser} = authSlice.actions 
 export default authSlice.reducer
+

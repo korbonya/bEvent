@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useCallback} from "react";
 import {
 	ScrollView,
 	Skeleton,
@@ -22,11 +22,38 @@ import {
 	useGetCategoriesQuery,
 } from "../Events/eventApi";
 import {MaterialIcons} from '@expo/vector-icons' 
+import { getUser } from "../../common/utils/secureStore";
+import { useLoginMutation } from "../auth/authApi";
+import { setStoredUser } from "../auth/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function HomeScreen({ navigation }) {
+	const dispatch = useDispatch()
 	const { data: categories } = useGetCategoriesQuery();
-	const { data, isLoading } = useGetEventsQuery();
-	console.log("catégories", categories);
+	const { data, isLoading, error } = useGetEventsQuery();
+	console.log("error :", error);
+
+	const [login, {isLoading:loadLogin}] = useLoginMutation()
+
+	const getUserProfile = useCallback(async ()=>{
+	  try {
+		const user = await getUser()
+		const userParsed = JSON.parse(user)
+		if(userParsed){
+		  dispatch(setStoredUser(userParsed))
+		  console.log('la user stokee est ', userParsed)
+		}else{
+			console.log('there no data stored ', user)
+		}
+	  } catch (error) {
+		console.log(error)
+	  }
+	},[])
+  
+	useEffect(()=> {
+	  getUserProfile()
+	},[getUserProfile])
+  
 	return (
 		<Box safeArea bgColor='gray.100'>
 			{/* <AppBar /> */}
@@ -44,8 +71,8 @@ export default function HomeScreen({ navigation }) {
                     <Input placeholder="Trouver un évenement" width="100%" borderRadius="4" py="3" px="1" fontSize="14" InputLeftElement={<Icon m="2" ml="3" size="6" color="gray.400" as={<MaterialIcons name="search" />} />}  />
                 </VStack>
                 <HStack mx={'2'}>
-					{categories?.map((item) => (
-						<Button variant={'subtle'} size={'lg'} rounded={'lg'} colorScheme='primary'>{item}</Button>
+					{categories?.map((item, index) => (
+						<Button key={index} variant={'subtle'} size={'lg'} rounded={'lg'} colorScheme='primary'>{item}</Button>
 					))}
 				</HStack>
 				<ListTopEvents data={data} navigation={navigation} />

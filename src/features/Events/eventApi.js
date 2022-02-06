@@ -9,7 +9,8 @@ const eventApi = api.injectEndpoints({
         }),
         getCategories: build.query({
             query:()=> '/categories',
-            providesTags:['categories']
+            providesTags:(result, error, arg) => 
+            result?[...result.map(({id}) => ({type:'categories', id})), 'categories']:['categories'],
         }),
         getEvent:build.query({
             providesTags:(result, error, id) => [{ type: 'event', id }],

@@ -1,10 +1,16 @@
 import React from 'react'
 import {Box,Center, Heading, Text, Avatar, Button } from 'native-base'
 import { useGetProfilQuery, useLogoutMutation } from './authApi'
+import { deleteUser } from '../../common/utils/secureStore'
 
 export default function ProfilScreen() {
     const [logout, {data:response, isLoading:loadLogout}] = useLogoutMutation()
     const {data, isSuccess, isLoading,error , isError} = useGetProfilQuery()
+    const handleLogout = async () => {
+        await deleteUser()
+        await logout()
+    }
+
     console.log('the user data is on profile ', data)
     console.log('is loading ', isLoading)
     console.log('the response of logout', response)
@@ -24,7 +30,7 @@ export default function ProfilScreen() {
             <Text fontSize={'lg'}> +224 622 30 12 45</Text>
             <Text py='2' fontSize={'lg'}>Cosa Tannerie</Text>
             <Button size={'lg'} variant={'outline'} my={'10'}>Modifier votre profil</Button>
-            <Button onPress={logout} variant={'subtle'} colorScheme='danger'>Se déconnecter</Button>
+            <Button onPress={()=>handleLogout()} variant={'subtle'} colorScheme='danger'>Se déconnecter</Button>
         </Box>)}
       </>
     )

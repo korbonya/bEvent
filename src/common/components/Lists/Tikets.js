@@ -11,9 +11,12 @@ import {
 export default function Tickets({ticketId, setTicketId, data}) {
 	const [active, setActive] = useState(1)
 	useEffect(()=> {
-		setActive(data[0]?.id)
-		setTicketId(data[0]?.id)
-	},[])
+		if(data){
+			setActive(data[0]?.id)
+			setTicketId(data[0]?.id)
+		}
+	})
+	
 	return (
 		<Box
 			w={{
