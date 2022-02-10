@@ -7,8 +7,8 @@ export default function ProfilScreen() {
     const [logout, {data:response, isSuccess:successLogout, error:logoutError, isLoading:loadLogout}] = useLogoutMutation()
     const {data, isSuccess, isLoading,error , isError} = useGetProfilQuery()
     const handleLogout = async () => {
-        // await deleteUser()
         await logout()
+        await deleteUser()
     }
 
     // console.log('the user data is on profile ', data)

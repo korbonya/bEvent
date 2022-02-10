@@ -16,6 +16,8 @@ import { useLoginMutation } from "./authApi";
 import { rootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import { saveUser } from "../../common/utils/secureStore";
+import InputText from '../../common/components/Inputs/InputText'
+
 
 LogBox.ignoreLogs(["NativeBase:"]);
 
@@ -58,7 +60,7 @@ export default function LoginScreen({ navigation }) {
 	return (
 		<>
 			<AppBar2 navigation={navigation} title={"Compte"} />
-			<ScrollView>
+			<ScrollView bgColor={'white'}>
 				<Box px={"5"} flex={1} p='2' py='8'>
 					<Heading
 						_dark={{
@@ -142,7 +144,7 @@ export default function LoginScreen({ navigation }) {
 								</FormControl>
 							)}
 							name='password' />
-
+							<InputText />
 						<Button
 							isLoading={isLoading}
 							isLoadingText='Connexion'

@@ -26,7 +26,6 @@ import { getUser } from "../../common/utils/secureStore";
 import { useLoginMutation } from "../auth/authApi";
 import { setStoredUser } from "../auth/authSlice";
 import { useDispatch } from "react-redux";
-import { TabView, SceneMap } from "react-native-tab-view";
 
 export default function HomeScreen({ navigation }) {
 	const dispatch = useDispatch()
