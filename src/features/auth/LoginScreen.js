@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {
 	Box,
 	Heading,
@@ -12,43 +12,49 @@ import {
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useForm, Controller } from "react-hook-form";
 import { LogBox } from "react-native";
-import {useLoginMutation} from './authApi'
-import {rootState} from '../../app/store'
-import {useSelector} from 'react-redux'
+import { useLoginMutation } from "./authApi";
+import { rootState } from "../../app/store";
+import { useSelector } from "react-redux";
 import { saveUser } from "../../common/utils/secureStore";
 
+LogBox.ignoreLogs(["NativeBase:"]);
 
-LogBox.ignoreLogs(['NativeBase:']);
-
-export const LoginScreen = ({navigation}) => {
+export default function LoginScreen({ navigation }) {
 	const [show, setShow] = React.useState(false);
-	const {isLoggedIn} = useSelector(state => state.auth)
-	const [login, {data, isLoading, isError, isSuccess, error}] = useLoginMutation()
+	const { isLoggedIn } = useSelector((state) => state.auth);
+	const [
+		login, { data, isLoading, isError, isSuccess, error },
+	] = useLoginMutation();
 	const {
-		control,
-		handleSubmit,
-		formState: { errors },
+		control, handleSubmit, formState: { errors },
 	} = useForm({
 		defaultValues: {
 			telephone: "",
 			password: "",
 		},
 	});
-	useEffect(async ()=>{
-		if(isSuccess){
-			console.log('suceess')
-			await saveUser(data)
-			navigation.navigate('Home')
-		}else if(isError){
-			console.log('the errror is ', isError)
-			console.log('the error :', error)
-		}
-	})
+	// useEffect(async ()=>{
+	// 	if(isSuccess){
+	// 		console.log('suceess')
+	// 		await saveUser(data)
+	// 		navigation.navigate('Home')
+	// 	}else if(isError){
+	// 		console.log('the errror is ', isError)
+	// 		console.log('the error :', error)
+	// 	}
+	// })
 	const onSubmit = async (data) => {
-		if(data){
+		try {
 			await login(data)
+				.unwrap()
+				.then(async (response) => {
+					await saveUser(response);
+					navigation.navigate('Home');
+				});
+		} catch (err) {
+			console.log(err);
 		}
-	}
+	};
 	return (
 		<>
 			<AppBar2 navigation={navigation} title={"Compte"} />
@@ -95,12 +101,10 @@ export const LoginScreen = ({navigation}) => {
 										variant={"filled"}
 										bgColor='coolGray.100'
 										fontSize={"lg"}
-										placeholder='Entrez votre Numéro de téléphone'
-									/>
+										placeholder='Entrez votre Numéro de téléphone' />
 								</FormControl>
 							)}
-							name='telephone'
-						/>
+							name='telephone' />
 						<Controller
 							control={control}
 							rules={{
@@ -124,26 +128,28 @@ export const LoginScreen = ({navigation}) => {
 										variant={"filled"}
 										bgColor='coolGray.100'
 										fontSize={"lg"}
-										InputRightElement={
-											<Button
-												size='sm'
-												variant={"gost"}
-												rounded='none'
-												w={"16"}
-												h='full'
-												onPress={() => setShow(!show)}
-											>
-												{show ? "Cacher" : "Voir"}
-											</Button>
-										}
-										placeholder='Entrez votre mot de passe'
-									/>
+										InputRightElement={<Button
+											size='sm'
+											variant={"gost"}
+											rounded='none'
+											w={"16"}
+											h='full'
+											onPress={() => setShow(!show)}
+										>
+											{show ? "Cacher" : "Voir"}
+										</Button>}
+										placeholder='Entrez votre mot de passe' />
 								</FormControl>
 							)}
-							name='password'
-						/>
+							name='password' />
 
-						<Button isLoading={isLoading} isLoadingText="Connexion" onPress={handleSubmit(onSubmit)} size={"lg"} mt='2'>
+						<Button
+							isLoading={isLoading}
+							isLoadingText='Connexion'
+							onPress={handleSubmit(onSubmit)}
+							size={"lg"}
+							mt='2'
+						>
 							Se Connecter
 						</Button>
 						<Link
@@ -162,4 +168,4 @@ export const LoginScreen = ({navigation}) => {
 			</ScrollView>
 		</>
 	);
-};
+}

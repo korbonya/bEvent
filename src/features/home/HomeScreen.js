@@ -2,7 +2,6 @@ import React, {useEffect, useCallback} from "react";
 import {
 	ScrollView,
 	Skeleton,
-	Badge,
 	Center,
 	VStack,
 	Heading,
@@ -10,8 +9,9 @@ import {
 	HStack,
     Input,
     Icon,
-    Button
+    Button,
 } from "native-base";
+import { View, StyleSheet, Dimensions, StatusBar, TouchableOpacity, Animated, Pressable } from "react-native";
 import AppBar from "../../common/components/headers/AppBar";
 import ListTopEvents from "../../common/components/Lists/ListTopEvents";
 import EventCard from "../../common/components/Cards/EventCard";
@@ -26,6 +26,7 @@ import { getUser } from "../../common/utils/secureStore";
 import { useLoginMutation } from "../auth/authApi";
 import { setStoredUser } from "../auth/authSlice";
 import { useDispatch } from "react-redux";
+import { TabView, SceneMap } from "react-native-tab-view";
 
 export default function HomeScreen({ navigation }) {
 	const dispatch = useDispatch()
@@ -55,6 +56,7 @@ export default function HomeScreen({ navigation }) {
 	},[getUserProfile])
   
 	return (
+
 		<Box safeArea bgColor='gray.100'>
 			{/* <AppBar /> */}
 			<ScrollView

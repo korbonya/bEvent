@@ -11,16 +11,13 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         signUp:builder.mutation({
-            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/register',
                 method:'POST',
                 body
             }),
-            overrideExisting:true
         }),
         validation:builder.mutation({
-            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/validation-account',
                 method:'POST',
@@ -28,7 +25,6 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         sendCodeAgain:builder.mutation({
-            invalidatesTags:['auth'],
             query:(body) => ({
                 url:'/send-code-again',
                 method:'POST',
@@ -51,7 +47,7 @@ export const authApi = api.injectEndpoints({
             }),
         }),
         getProfil:builder.query({
-            providesTags:(result, error, id) => [{ type: 'auth', id }],
+            providesTags:['auth'],
             query:() => `/profil`
         }),
         // getBalance:builder.query({

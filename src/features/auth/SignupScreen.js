@@ -16,14 +16,11 @@ import {useSignUpMutation} from './authApi'
 
 LogBox.ignoreLogs(['NativeBase:']);
 
-export const SignupScreen = ({navigation}) => {
+export default function SignupScreen({ navigation }) {
 	const [show, setShow] = React.useState(false);
-    const [signup, {data:response, error, isError, isSuccess , isLoading}] = useSignUpMutation()
+	const [signup, { data: response, error, isError, isSuccess, isLoading }] = useSignUpMutation();
 	const {
-		control,
-		handleSubmit,
-		watch,
-		formState: { errors },
+		control, handleSubmit, watch, formState: { errors },
 	} = useForm({
 		defaultValues: {
 			prenom: "",
@@ -32,36 +29,36 @@ export const SignupScreen = ({navigation}) => {
 			password: "",
 		},
 	});
-	useEffect(()=>{
-		if(isSuccess ) {
-			console.log('response', response)
+	useEffect(() => {
+		if (isSuccess) {
+			console.log('response', response);
 			navigation.navigate('Validate', {
-				telephone:watch('telephone'),
-				password:watch('password')
-			})
-		}else if(isError) {
-			console.log('the error ::', error)
+				telephone: watch('telephone'),
+				password: watch('password')
+			});
+		} else if (isError) {
+			console.log('the error ::', error);
 		}
-	},[isError, isSuccess])
+	}, [isError, isSuccess]);
 
-    console.log('the response ', response)
+	console.log('the response ', response);
 
 	const onSubmit = async (data) => {
-       await signup(data)
-    //    if(isSuccess ) {
-    //        console.log('response', response)
-    //        navigation.navigate('Validate', {
-    //            telephone:data.telephone
-    //        })
-    //    }else if(isError) {
-    //        console.log('the error ::', error)
-    //    }
-    }
+		await signup(data);
+		//    if(isSuccess ) {
+		//        console.log('response', response)
+		//        navigation.navigate('Validate', {
+		//            telephone:data.telephone
+		//        })
+		//    }else if(isError) {
+		//        console.log('the error ::', error)
+		//    }
+	};
 	return (
 		<>
 			<AppBar2 navigation={navigation} title={"Compte"} />
 			<ScrollView>
-				<Box  px={"5"} p='2' py='8'>
+				<Box px={"5"} p='2' py='8'>
 					<Heading>
 						Inscription
 					</Heading>
@@ -98,13 +95,11 @@ export const SignupScreen = ({navigation}) => {
 										value={value}
 										variant={"filled"}
 										bgColor='coolGray.100'
-                                        fontSize={'lg'}
-										placeholder='Entrez votre nom'
-									/>
+										fontSize={'lg'}
+										placeholder='Entrez votre nom' />
 								</FormControl>
 							)}
-							name='nom'
-						/>
+							name='nom' />
 
 						<Controller
 							control={control}
@@ -127,13 +122,11 @@ export const SignupScreen = ({navigation}) => {
 										value={value}
 										variant={"filled"}
 										bgColor='coolGray.100'
-                                        fontSize={'lg'}
-										placeholder='Entrez votre Prénom'
-									/>
+										fontSize={'lg'}
+										placeholder='Entrez votre Prénom' />
 								</FormControl>
 							)}
-							name='prenom'
-						/>
+							name='prenom' />
 						<Controller
 							control={control}
 							rules={{
@@ -155,13 +148,11 @@ export const SignupScreen = ({navigation}) => {
 										value={value}
 										variant={"filled"}
 										bgColor='coolGray.100'
-                                        fontSize={'lg'}
-										placeholder='Entrez votre Numéro de téléphone'
-									/>
+										fontSize={'lg'}
+										placeholder='Entrez votre Numéro de téléphone' />
 								</FormControl>
 							)}
-							name='telephone'
-						/>
+							name='telephone' />
 						<Controller
 							control={control}
 							rules={{
@@ -184,35 +175,31 @@ export const SignupScreen = ({navigation}) => {
 										type={show ? "text" : "password"}
 										variant={"filled"}
 										bgColor='coolGray.100'
-                                        fontSize={'lg'}
-                                     
-										InputRightElement={
-											<Button
-												size='sm'
-												variant={'outline'}
-												rounded='none'
-												w={"16"}
-												h='full'
-                                            
-												onPress={() => setShow(!show)}
-											>
-												{show ? "Cacher" : "Voir"}
-											</Button>
-										}
-										placeholder='Entrez votre mot de passe'
-									/>
+										fontSize={'lg'}
+
+										InputRightElement={<Button
+											size='sm'
+											variant={'outline'}
+											rounded='none'
+											w={"16"}
+											h='full'
+
+											onPress={() => setShow(!show)}
+										>
+											{show ? "Cacher" : "Voir"}
+										</Button>}
+										placeholder='Entrez votre mot de passe' />
 								</FormControl>
 							)}
-							name='password'
-						/>
+							name='password' />
 
 						<Button isLoading={isLoading} isLoadingText="Inscription" onPress={handleSubmit(onSubmit)} size={"lg"} mt='2'>
 							Créer votre compte
 						</Button>
-                        
+
 					</VStack>
 				</Box>
 			</ScrollView>
 		</>
 	);
-};
+}

@@ -4,17 +4,18 @@ import { useGetProfilQuery, useLogoutMutation } from './authApi'
 import { deleteUser } from '../../common/utils/secureStore'
 
 export default function ProfilScreen() {
-    const [logout, {data:response, isLoading:loadLogout}] = useLogoutMutation()
+    const [logout, {data:response, isSuccess:successLogout, error:logoutError, isLoading:loadLogout}] = useLogoutMutation()
     const {data, isSuccess, isLoading,error , isError} = useGetProfilQuery()
     const handleLogout = async () => {
-        await deleteUser()
+        // await deleteUser()
         await logout()
     }
 
-    console.log('the user data is on profile ', data)
-    console.log('is loading ', isLoading)
-    console.log('the response of logout', response)
-    console.log('logout load :', loadLogout)
+    // console.log('the user data is on profile ', data)
+    console.log('the response of getprofile', data)
+    console.log('profile load :', isLoading)
+    console.log('profile success', isSuccess)
+    console.log('the error ',error)
     return (
       <>
         {isLoading?(<Box>
@@ -30,7 +31,7 @@ export default function ProfilScreen() {
             <Text fontSize={'lg'}> +224 622 30 12 45</Text>
             <Text py='2' fontSize={'lg'}>Cosa Tannerie</Text>
             <Button size={'lg'} variant={'outline'} my={'10'}>Modifier votre profil</Button>
-            <Button onPress={()=>handleLogout()} variant={'subtle'} colorScheme='danger'>Se déconnecter</Button>
+            <Button onPress={handleLogout} variant={'subtle'} colorScheme='danger'>Se déconnecter</Button>
         </Box>)}
       </>
     )

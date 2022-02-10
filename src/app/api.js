@@ -3,7 +3,7 @@ import { getUser } from '../common/utils/secureStore'
 
 export const api = createApi({
     baseQuery:fetchBaseQuery({
-        baseUrl:'https://eventapp.elitegroupe.net/api/clients',
+        baseUrl:'https://bevent-api.elitegroupe.net/api/clients',
         prepareHeaders: async (headers) => {
             const user = JSON.parse(await getUser())
             const hasUser = user && user?.access_token
