@@ -86,7 +86,7 @@ export default function DetailEventScreen({ route, navigation }) {
 							<Image
 								borderTopRadius={"md"}
 								source={{
-									uri: `https://eventapp.elitegroupe.net/storage/${data?.image}`,
+									uri: `https://bevent-admin.elitegroupe.net/storage/${data?.image}`,
 								}}
 								alt={data?.titre}
 							/>

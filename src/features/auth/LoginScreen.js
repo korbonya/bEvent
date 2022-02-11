@@ -13,10 +13,10 @@ import AppBar2 from "../../common/components/headers/AppBar2";
 import { useForm, Controller } from "react-hook-form";
 import { LogBox } from "react-native";
 import { useLoginMutation } from "./authApi";
-import { rootState } from "../../app/store";
+// import { rootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import { saveUser } from "../../common/utils/secureStore";
-import InputText from '../../common/components/Inputs/InputText'
+import {InputText, InputPass} from '../../common/components/Inputs/InputText'
 
 
 LogBox.ignoreLogs(["NativeBase:"]);
@@ -46,6 +46,7 @@ export default function LoginScreen({ navigation }) {
 	// 	}
 	// })
 	const onSubmit = async (data) => {
+		console.log(data)
 		try {
 			await login(data)
 				.unwrap()
@@ -88,22 +89,27 @@ export default function LoginScreen({ navigation }) {
 							}}
 							render={({ field: { onChange, onBlur, value } }) => (
 								<FormControl>
-									<FormControl.Label
+									{/* <FormControl.Label
 										_text={{
 											fontSize: "lg",
 											fontWeight: "bold",
 										}}
 									>
 										Numéro de Téléphone
-									</FormControl.Label>
-									<Input
+									</FormControl.Label> */}
+									<InputText 
+									label={'Numéro de Téléphone'}
+									onChangeText={onChange}
+									value={value}
+									/>
+									{/* <Input
 										onBlur={onBlur}
 										onChangeText={onChange}
 										value={value}
 										variant={"filled"}
 										bgColor='coolGray.100'
 										fontSize={"lg"}
-										placeholder='Entrez votre Numéro de téléphone' />
+										placeholder='Entrez votre Numéro de téléphone' /> */}
 								</FormControl>
 							)}
 							name='telephone' />
@@ -114,15 +120,20 @@ export default function LoginScreen({ navigation }) {
 							}}
 							render={({ field: { onChange, onBlur, value } }) => (
 								<FormControl>
-									<FormControl.Label
+									{/* <FormControl.Label
 										_text={{
 											fontSize: "lg",
 											fontWeight: "bold",
 										}}
 									>
 										Mot de passe
-									</FormControl.Label>
-									<Input
+									</FormControl.Label> */}
+									<InputPass 
+									label={'Mot de passe'}
+									onChangeText={onChange}
+										value={value}
+									/>
+									{/* <Input
 										onBlur={onBlur}
 										onChangeText={onChange}
 										value={value}
@@ -140,11 +151,10 @@ export default function LoginScreen({ navigation }) {
 										>
 											{show ? "Cacher" : "Voir"}
 										</Button>}
-										placeholder='Entrez votre mot de passe' />
+										placeholder='Entrez votre mot de passe' /> */}
 								</FormControl>
 							)}
 							name='password' />
-							<InputText />
 						<Button
 							isLoading={isLoading}
 							isLoadingText='Connexion'

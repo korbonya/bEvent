@@ -42,7 +42,7 @@ export default function ListTopEvents({data, navigation}) {
 							<Image
 								borderTopRadius={'md'}
 								source={{
-									uri: `https://eventapp.elitegroupe.net/storage/${item.image}`,
+									uri: `https://bevent-admin.elitegroupe.net/storage/${item.image}`,
 								  }}
                                 alt={item?.titre}
 							/>

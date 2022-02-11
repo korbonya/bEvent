@@ -1,19 +1,28 @@
-import React, { useState } from 'react'
-import { TextInput } from 'react-native-paper';
+import { TextInput } from "react-native-paper";
 
-const InputText = ({onChangeText, value}) => {
-    const [text, setText] = React.useState("");
+export const InputText = ({ label, onChangeText, value }) => {
+	return (
+		<TextInput
+			mode='outlined'
+			label={label}
+			value={value}
+			activeOutlineColor={"#2186EB"}
+			onChangeText={onChangeText}
+		/>
+	);
+};
 
-    return (
-        <TextInput
-          mode='outlined'
-          label="Telephone"
-          value={text}
-          activeOutlineColor={'#2186EB'}
-          right={<TextInput.Affix text="/100" />}
-          onChangeText={text => setText(text)}
-        />
-      );
-}
+export const InputPass = ({ label, onChangeText, value }) => {
+	return (
+		<TextInput
+			mode='outlined'
+			label={label}
+			value={value}
+			onChangeText={onChangeText}
+			activeOutlineColor={"#2186EB"}
+			secureTextEntry
+			right={<TextInput.Icon name='eye' />}
+		/>
+	);
+};
 
-export default InputText

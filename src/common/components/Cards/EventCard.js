@@ -25,7 +25,7 @@ export default function EventCard({data, navigation}) {
 				<AspectRatio w='100%' ratio={4 / 3}>
 					<Image
 						source={{
-							uri: `https://eventapp.elitegroupe.net/storage/${data.image}`,
+							uri: `https://bevent-admin.elitegroupe.net/storage/${data.image}`,
 						}}
 						alt='image'
 					/>

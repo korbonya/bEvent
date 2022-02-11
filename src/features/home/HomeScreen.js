@@ -10,6 +10,7 @@ import {
     Input,
     Icon,
     Button,
+	FlatList
 } from "native-base";
 import { View, StyleSheet, Dimensions, StatusBar, TouchableOpacity, Animated, Pressable } from "react-native";
 import AppBar from "../../common/components/headers/AppBar";
@@ -72,9 +73,14 @@ export default function HomeScreen({ navigation }) {
                     <Input placeholder="Trouver un évenement" width="100%" borderRadius="4" py="3" px="1" fontSize="14" InputLeftElement={<Icon m="2" ml="3" size="6" color="gray.400" as={<MaterialIcons name="search" />} />}  />
                 </VStack>
                 <HStack mx={'2'}>
-					{categories?.map((item, index) => (
+					<FlatList horizontal data={categories?categories:[]}
+					renderItem={({item}) =><Button variant={'subtle'} mx={'2'} size={'lg'} rounded={'full'} colorScheme='primary'>{item}</Button>} 
+					keyExtractor={item => item.id}
+					showsHorizontalScrollIndicator={false}
+					/>
+					{/* {categories?.map((item, index) => (
 						<Button key={index} variant={'subtle'} size={'lg'} rounded={'lg'} colorScheme='primary'>{item}</Button>
-					))}
+					))} */}
 				</HStack>
 				<ListTopEvents data={data} navigation={navigation} />
 				 <Heading fontSize='xl' p='4' pb='3'>
@@ -114,12 +120,12 @@ const LoadEventH = () => {
 			>
 				<Skeleton flex='1' h='150' rounded='md' startColor='coolGray.100' />
 				<VStack flex='3' space='4'>
-					<Skeleton startColor='amber.300' />
+					<Skeleton startColor='coulGray.300' />
 					<Skeleton.Text />
 					<HStack space='2' alignItems='center'>
 						<Skeleton size='5' rounded='full' />
 						<Skeleton h='3' flex='2' rounded='full' />
-						<Skeleton h='3' flex='1' rounded='full' startColor='indigo.300' />
+						<Skeleton h='3' flex='1' rounded='full' startColor='coolGray.300' />
 					</HStack>
 				</VStack>
 			</HStack>

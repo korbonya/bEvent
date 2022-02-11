@@ -31,7 +31,7 @@ export default function AutherEvents({data, navigation}) {
                         <Image
                             size='120px'
                             source={{
-								uri: `https://eventapp.elitegroupe.net/storage/${item.image}`,
+								uri: `https://bevent-admin.elitegroupe.net/storage/${item.image}`,
                             }}
                             alt={item.titre}
                         />
