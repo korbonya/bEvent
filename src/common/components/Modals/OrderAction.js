@@ -66,7 +66,7 @@ export default function OrderAction({
 		};
 		try {
 			const paylaod = await orderTicket({ id: eventId, ...data }).unwrap();
-			console.log("the payload : ", paylaod);
+			console.log("response : ", paylaod);
 		} catch (error) {
 			console.log(error);
 		}
