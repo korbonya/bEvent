@@ -14,7 +14,7 @@ import {
 	IconButton,
 	AspectRatio,
 	Image,
-	Button
+	Spinner
 } from "native-base";
 import ImageCaroussel from "../../common/components/Caroussel/ImageCaroussel";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -185,7 +185,9 @@ export default function DetailEventScreen({ route, navigation }) {
 						</VStack>
 					</Box>
 				) : (
-					<Loading />
+					<Box flex={1} justifyContent={'center'} alignItems={'center'} >
+    <Spinner accessibilityLabel="Chargement" />
+   </Box>
 				)}
 			</ScrollView>
 
