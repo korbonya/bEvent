@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dimensions, TouchableOpacity, View } from 'react-native';
 
 import {
@@ -9,7 +9,7 @@ import {
   ScrollView,
   Icon,
   HStack,
-  Avatar,
+  Spinner,
   VStack,
   Spacer,
 } from 'native-base';
@@ -17,6 +17,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
 import AppBar2 from '../../common/components/headers/AppBar2';
 import { useGetTicketsQuery } from './ticketApi';
+import { deleteUser } from '../../common/utils/secureStore';
 
 export default function TicketsScreen({navigation}) {
   const data = [
@@ -60,14 +61,21 @@ export default function TicketsScreen({navigation}) {
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
     }, 
   ];
-  const {data:tickets, isLoading, isSuccess} = useGetTicketsQuery()
+  const {data:tickets, isLoading, isSuccess, error} = useGetTicketsQuery()
   const [listData, setListData] = useState(data);
-
+  // useEffect(async ()=>{
+  //   if(error){
+  //     await deleteUser()
+  //     navigation.navigate('Login')
+  //   }
+  // },[error])
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
+
+  console.log('tikets', tickets)
 
   const deleteRow = (rowMap, rowKey) => {
     closeRow(rowMap, rowKey);
@@ -162,7 +170,11 @@ export default function TicketsScreen({navigation}) {
   return (
    <>
    <AppBar2 title='Mes Tickets' />
-     <Box px='2' bg="white" safeArea flex="1">
+   {isLoading?<Box flex={1} justifyContent={'center'} alignItems={'center'} >
+    <Spinner accessibilityLabel="Chargement" />
+   </Box>:tickets?<Box flex={1} justifyContent={'center'} alignItems={'center'}>
+     <Text fontSize={'lg'}>Aucun Ticket acheté</Text>
+   </Box>:tickets && <Box px='2' bg="white" safeArea flex="1">
       <SwipeListView
         data={tickets}
         renderItem={renderItem}
@@ -174,6 +186,8 @@ export default function TicketsScreen({navigation}) {
         onRowDidOpen={onRowDidOpen}
       />
     </Box>
+    
+   }
    </>
   );
 }

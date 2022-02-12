@@ -11,9 +11,11 @@ import {
 	Actionsheet,
 	useDisclose,
 	Button,
+	Spinner
 } from "native-base";
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useProvideBalanceMutation, useGetBalanceQuery } from "./balanceApi";
+import { deleteUser } from "../../common/utils/secureStore";
 
 export default function BalanceScreen() {
 	const { data, isLoading, error } = useGetBalanceQuery();
@@ -24,13 +26,20 @@ export default function BalanceScreen() {
 		{data:response, isLoading: loadProvide, isSuccess },
 	] = useProvideBalanceMutation();
 	const { isOpen, onOpen, onClose } = useDisclose();
+	// useEffect(async ()=>{
+	// 	if(error){
+	// 	  await deleteUser()
+	// 	  navigation.navigate('Login')
+	// 	}
+	//   },[error])
 	console.log('the response', response)
 	console.log('le solde  ', data)
 	console.log('is error ', error)
 	return (
 		<ScrollView>
 			<AppBar2 title={"Mon Solde"} />
-			<Box flex={1}>
+			{isLoading?<Box flex={1} justifyContent={'center'} alignItems={'center'} >
+    <Spinner accessibilityLabel="Chargement" /> </Box>:<Box flex={1}>
 				<Box
 					mx={"5"}
 					my={"10"}
@@ -113,15 +122,15 @@ export default function BalanceScreen() {
 							</Text>
 						</Box>
 						<Actionsheet.Item>
-							<Input value={montant} onChangeText={(val) => setMontant(val)} placeholder="Numéro de téléphone"/>
+							<Input placeholder="Montant" variant={'outline'} w={'full'} value={montant} onChangeText={(val) => setMontant(val)} placeholder="Numéro de téléphone"/>
 						</Actionsheet.Item>
 						<Actionsheet.Item>
-							<Input value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
+							<Input placeholder="Mot de passe" variant={'outline'} w={'full'}  value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
 						</Actionsheet.Item>
 						<Button  onPress={async() => await provideBalance({montant, password})}>Valider</Button>
 					</Actionsheet.Content>
 				</Actionsheet>
-			</Box>
+			</Box>}
 		</ScrollView>
 	);
 }

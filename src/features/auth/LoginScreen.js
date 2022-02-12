@@ -61,8 +61,8 @@ export default function LoginScreen({ navigation }) {
 	return (
 		<>
 			<AppBar2 navigation={navigation} title={"Compte"} />
-			<ScrollView bgColor={'white'}>
-				<Box px={"5"} flex={1} p='2' py='8'>
+			<ScrollView >
+				<VStack px={"5"} justifyContent={'center'} flex={1} p='2' py='8'>
 					<Heading
 						_dark={{
 							color: "warmGray.50",
@@ -161,6 +161,7 @@ export default function LoginScreen({ navigation }) {
 							onPress={handleSubmit(onSubmit)}
 							size={"lg"}
 							mt='2'
+	
 						>
 							Se Connecter
 						</Button>
@@ -176,7 +177,7 @@ export default function LoginScreen({ navigation }) {
 							Mot de passe Oublié?
 						</Link>
 					</VStack>
-				</Box>
+				</VStack>
 			</ScrollView>
 		</>
 	);

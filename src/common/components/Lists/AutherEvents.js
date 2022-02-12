@@ -9,8 +9,8 @@ import {
 } from "native-base";
 import { dformat } from "../../utils/dFormat";
 
-export default function AutherEvents({data, navigation}) {
-
+export default function AutherEvents({data, navigation, filter=''}) {
+    console.log(filter=='CONCERT')
 	return (
 		<Box
 			w={{
@@ -18,8 +18,51 @@ export default function AutherEvents({data, navigation}) {
 				md: "25%",
 			}}
 		>
-            {data?.map((item) => 
-                	<Box
+            {data?.map((item) => (
+                <>
+          {!filter?<Box
+                    key={"keyOthe"+item.id}
+					bgColor='coolGray.50'
+					my='2'
+                    mx='2'
+					shadow='3'
+                >
+                  <Pressable onPress={()=> navigation.push('DetailEvent', {id:item.id})}>
+				  <HStack justifyContent='flex-start'>
+                        <Image
+                            size='120px'
+                            source={{
+								uri: `https://bevent-admin.elitegroupe.net/storage/${item.image}`,
+                            }}
+                            alt={item.titre}
+                        />
+                        <VStack pt='5' px='5'>
+						<Text
+                            fontSize='md'
+                            _dark={{
+                                color: "warmGray.50",
+                            }}
+                            color='coolGray.800'
+                            alignSelf='flex-start'
+                        >
+                           {dformat(item.date_debut, 'lll')}
+                        </Text>
+                            <Text
+								fontSize='lg'
+                                _dark={{
+                                    color: "warmGray.50",
+                                }}
+                                color='coolGray.800'
+                                bold
+                            >
+                              {item.titre}
+                            </Text>
+                           
+                        </VStack>
+                      
+                    </HStack>
+				  </Pressable>
+                </Box>: item.type == filter? <Box
                     key={item.id}
 					bgColor='coolGray.50'
 					my='2'
@@ -61,7 +104,11 @@ export default function AutherEvents({data, navigation}) {
                       
                     </HStack>
 				  </Pressable>
-                </Box>
+                </Box>:null
+               }
+                </>
+            ) 
+              
             )
 
             }

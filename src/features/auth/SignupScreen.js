@@ -12,6 +12,7 @@ import AppBar2 from "../../common/components/headers/AppBar2";
 import { useForm, Controller } from "react-hook-form";
 import { LogBox } from "react-native";
 import {useSignUpMutation} from './authApi'
+import {InputText, InputPass} from '../../common/components/Inputs/InputText'
 
 
 LogBox.ignoreLogs(['NativeBase:']);
@@ -81,22 +82,27 @@ export default function SignupScreen({ navigation }) {
 							}}
 							render={({ field: { onChange, onBlur, value } }) => (
 								<FormControl>
-									<FormControl.Label
+									{/* <FormControl.Label
 										_text={{
 											fontSize: "lg",
 											fontWeight: "bold",
 										}}
 									>
 										Nom
-									</FormControl.Label>
-									<Input
+									</FormControl.Label> */}
+									<InputText 
+									onChangeText={onChange}
+									value={value}
+									label={'Nom'}
+									/>
+									{/* <Input
 										onBlur={onBlur}
 										onChangeText={onChange}
 										value={value}
 										variant={"filled"}
 										bgColor='coolGray.100'
 										fontSize={'lg'}
-										placeholder='Entrez votre nom' />
+										placeholder='Entrez votre nom' /> */}
 								</FormControl>
 							)}
 							name='nom' />
@@ -108,7 +114,12 @@ export default function SignupScreen({ navigation }) {
 							}}
 							render={({ field: { onChange, onBlur, value } }) => (
 								<FormControl>
-									<FormControl.Label
+									<InputText 
+									onChangeText={onChange}
+									value={value}
+									label={'Prénom'}
+									/>
+									{/* <FormControl.Label
 										_text={{
 											fontSize: "lg",
 											fontWeight: "bold",
@@ -123,7 +134,7 @@ export default function SignupScreen({ navigation }) {
 										variant={"filled"}
 										bgColor='coolGray.100'
 										fontSize={'lg'}
-										placeholder='Entrez votre Prénom' />
+										placeholder='Entrez votre Prénom' /> */}
 								</FormControl>
 							)}
 							name='prenom' />
@@ -134,7 +145,12 @@ export default function SignupScreen({ navigation }) {
 							}}
 							render={({ field: { onChange, onBlur, value } }) => (
 								<FormControl>
-									<FormControl.Label
+									<InputText 
+									onChangeText={onChange}
+									value={value}
+									label={'Numéro de téléphone'}
+									/>
+									{/* <FormControl.Label
 										_text={{
 											fontSize: "lg",
 											fontWeight: "bold",
@@ -149,7 +165,7 @@ export default function SignupScreen({ navigation }) {
 										variant={"filled"}
 										bgColor='coolGray.100'
 										fontSize={'lg'}
-										placeholder='Entrez votre Numéro de téléphone' />
+										placeholder='Entrez votre Numéro de téléphone' /> */}
 								</FormControl>
 							)}
 							name='telephone' />
@@ -160,7 +176,12 @@ export default function SignupScreen({ navigation }) {
 							}}
 							render={({ field: { onChange, onBlur, value } }) => (
 								<FormControl>
-									<FormControl.Label
+									<InputPass 
+									onChangeText={onChange}
+									value={value}
+									label={'Mot de passe'}
+									/>
+									{/* <FormControl.Label
 										_text={{
 											fontSize: "lg",
 											fontWeight: "bold",
@@ -188,7 +209,7 @@ export default function SignupScreen({ navigation }) {
 										>
 											{show ? "Cacher" : "Voir"}
 										</Button>}
-										placeholder='Entrez votre mot de passe' />
+										placeholder='Entrez votre mot de passe' /> */}
 								</FormControl>
 							)}
 							name='password' />

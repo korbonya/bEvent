@@ -1,5 +1,5 @@
-import React from 'react'
-import {Box,Center, Heading, Text, Avatar, Button } from 'native-base'
+import React, {useEffect} from 'react'
+import {Box,Center, Heading,Spinner, Text, Avatar, Button } from 'native-base'
 import { useGetProfilQuery, useLogoutMutation } from './authApi'
 import { deleteUser } from '../../common/utils/secureStore'
 
@@ -10,6 +10,12 @@ export default function ProfilScreen() {
         await logout()
         await deleteUser()
     }
+    // useEffect(async ()=>{
+	// 	if(error){
+	// 	  await deleteUser()
+	// 	  navigation.navigate('Login')
+	// 	}
+	//   },[error])
 
     // console.log('the user data is on profile ', data)
     console.log('the response of getprofile', data)
@@ -18,11 +24,8 @@ export default function ProfilScreen() {
     console.log('the error ',error)
     return (
       <>
-        {isLoading?(<Box>
-            <Center>
-                <Heading>Chargement..</Heading>
-            </Center>
-        </Box>):( <Box bgColor={'coolGray.50'} flex={'1'} justifyContent={'center'} alignItems='center'>
+        {isLoading?(<Box flex={1} justifyContent={'center'} alignItems={'center'} >
+    <Spinner accessibilityLabel="Chargement" /></Box>):( <Box bgColor={'coolGray.50'} flex={'1'} justifyContent={'center'} alignItems='center'>
             <Avatar size="120px" source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU" }} />
             <Heading my={'5'}>
                 {data?.nom}
