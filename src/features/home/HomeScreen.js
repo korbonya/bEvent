@@ -14,7 +14,7 @@ import {
 	Text,
 
 } from "native-base";
-import { RefreshControl } from "react-native-web";
+import {RefreshControl} from 'react-native'
 import ListTopEvents from "../../common/components/Lists/ListTopEvents";
 import EventCard from "../../common/components/Cards/EventCard";
 import AutherEvents from "../../common/components/Lists/AutherEvents";
@@ -36,20 +36,22 @@ const wait = timeout => {
 export default function HomeScreen({ navigation }) {
 	const [refreshing, setRefreshing] = React.useState(false);
 
-	const onRefresh = useCallback(() => {
-	  setRefreshing(true);
-	  wait(2000).then(() => setRefreshing(false));
-	}, []);
+	
 
 	const dispatch = useDispatch();
 	const { data: categories } = useGetCategoriesQuery();
-	const { data, isLoading, error } = useGetEventsQuery();
+	const { data, refetch, isFetching, isLoading, error } = useGetEventsQuery();
 	const [listCategorie, setListCategorie] = useState(['Tous'])
 	const [activeCategorie, setActiveCategorie] = useState('');
 	console.log("error :", error);
 	console.log('data', data)
 	const [login, { isLoading: loadLogin }] = useLoginMutation();
 
+	const onRefresh = useCallback(async () => {
+		setRefreshing(true);
+		await refetch()
+		setRefreshing(false);
+	  }, []);
 	const getUserProfile = useCallback(async () => {
 		try {
 			const user = await getUser();
@@ -79,7 +81,13 @@ export default function HomeScreen({ navigation }) {
 		<Box safeArea bgColor='gray.100'>
 			{/* <AppBar /> */}
 			<ScrollView
-				refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+				refreshControl={
+					<RefreshControl
+					  refreshing={refreshing}
+					  onRefresh={onRefresh}
+					/>
+				}
+				
 				showsVerticalScrollIndicator={false}
 				stickyHeaderIndices={[0]}
 				_contentContainerStyle={{
@@ -176,7 +184,7 @@ export default function HomeScreen({ navigation }) {
 				<Heading fontSize='xl' p='4' pb='3'>
 					Évenement à la une
 				</Heading>
-				{!isLoading && data ? (
+				{!isLoading && !isFetching && data ? (
 					<EventCard data={data[1]} navigation={navigation} />
 				) : (
 					<LoadEventH />
