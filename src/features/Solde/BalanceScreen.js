@@ -49,7 +49,7 @@ export default function BalanceScreen() {
 					bgColor={"blue.100"}
 				>
 					<Heading fontWeight={"semibold"}>Votre Solde</Heading>
-					<Text bold pt={"10"} fontSize={"3xl"}>
+					<Text bold pt={"10"} fontSize={"xl"}>
 						{data ? data.solde + " GNF" : "..."}
 					</Text>
 				</Box>

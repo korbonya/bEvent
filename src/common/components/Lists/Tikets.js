@@ -15,7 +15,7 @@ export default function Tickets({ticketId, setTicketId, data}) {
 			setActive(data[0]?.id)
 			setTicketId(data[0]?.id)
 		}
-	})
+	},[data])
 	
 	return (
 		<Box

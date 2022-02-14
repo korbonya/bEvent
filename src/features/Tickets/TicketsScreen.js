@@ -172,7 +172,7 @@ export default function TicketsScreen({navigation}) {
    <AppBar2 title='Mes Tickets' />
    {isLoading?<Box flex={1} justifyContent={'center'} alignItems={'center'} >
     <Spinner accessibilityLabel="Chargement" />
-   </Box>:tickets?<Box flex={1} justifyContent={'center'} alignItems={'center'}>
+   </Box>:tickets && tickets.length===0?<Box flex={1} justifyContent={'center'} alignItems={'center'}>
      <Text fontSize={'lg'}>Aucun Ticket acheté</Text>
    </Box>:tickets && <Box px='2' bg="white" safeArea flex="1">
       <SwipeListView

@@ -26,7 +26,7 @@ export default function ProfilScreen() {
       <>
         {isLoading?(<Box flex={1} justifyContent={'center'} alignItems={'center'} >
     <Spinner accessibilityLabel="Chargement" /></Box>):( <Box bgColor={'coolGray.50'} flex={'1'} justifyContent={'center'} alignItems='center'>
-            <Avatar size="120px" source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU" }} />
+            <Avatar size="120px" source={{ uri: "https://duux.com/wp-content/uploads/2019/12/68824649-man-standaard-placeholder-avatar-profiel-gray-picture-ge%C3%AFsoleerd-op-witte-achtergrond-voor-uw-ontwerp-.jpg" }} />
             <Heading my={'5'}>
                 {data?.nom}
             </Heading>

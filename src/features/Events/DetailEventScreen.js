@@ -198,6 +198,7 @@ export default function DetailEventScreen({ route, navigation }) {
 					data={tickets}
 					ticketId={ticketId}
 					setTicketId={setTicketId}
+					navigation={navigation}
 				/>
 			)}
 		</>

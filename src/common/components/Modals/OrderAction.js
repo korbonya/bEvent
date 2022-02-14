@@ -14,14 +14,17 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useOrderTicketMutation } from "../../../features/Events/eventApi";
+import { useSelector } from "react-redux";
 
 export default function OrderAction({
+	navigation,
 	ticketId,
 	title,
 	setTicketId,
 	eventId,
 	data,
 }) {
+	const { isLoggedIn } = useSelector(state => state.auth)
 	const [
 		orderTicket,
 		{ isLoading, isSuccess, isError, data: response },
@@ -78,63 +81,76 @@ export default function OrderAction({
 			</Button>
 			<Actionsheet isOpen={isOpen} onClose={onClose}>
 				<Actionsheet.Content>
-					<Box w='100%' py='5' px={4} justifyContent='center'>
-						<Text fontSize='lg'>{title}</Text>
-						<Heading my={"2"} fontSize={"md"}>
-							{" "}
-							{selectTicket?.reference}
-						</Heading>
-					</Box>
-					<HStack justifyContent='space-between' alignItems={"center"}>
-						<IconButton
-							size='md'
-							variant='solid'
-							rounded={"full"}
-							mx='12'
-							onPress={() => decrement()}
-							_icon={{
-								as: Feather,
-								name: "minus",
-							}}
+					{isLoading ? <>
+						<Box w='100%' py='5' px={4} justifyContent='center'>
+							<Text fontSize='lg'>{title}</Text>
+							<Heading my={"2"} fontSize={"md"}>
+								{" "}
+								{selectTicket?.reference}
+							</Heading>
+						</Box>
+						<HStack justifyContent='space-between' alignItems={"center"}>
+							<IconButton
+								size='md'
+								variant='solid'
+								rounded={"full"}
+								mx='12'
+								onPress={() => decrement()}
+								_icon={{
+									as: Feather,
+									name: "minus",
+								}}
+							/>
+							<Text bold fontSize={"lg"}>
+								{nombre} tickets
+							</Text>
+
+							<IconButton
+								size='md'
+								variant='solid'
+								rounded={"full"}
+								mx='12'
+								onPress={() => increment()}
+								_icon={{
+									as: MaterialIcons,
+									name: "add",
+								}}
+							/>
+						</HStack>
+
+						<Input
+							type='password'
+							value={password}
+							onChangeText={(val) => setPassword(val)}
+							borderWidth={"1"}
+							mt={"5"}
+							px={"4"}
+							variant={"filled"}
+							size={"md"}
+							p={2}
+							placeholder='Entrez votre mot de passe...'
 						/>
-						<Text bold fontSize={"lg"}>
-							{nombre} tickets
-						</Text>
 
-						<IconButton
-							size='md'
-							variant='solid'
-							rounded={"full"}
-							mx='12'
-							onPress={() => increment()}
-							_icon={{
-								as: MaterialIcons,
-								name: "add",
-							}}
-						/>
-					</HStack>
+						<HStack mt={"10"}>
 
-					<Input
-						type='password'
-						value={password}
-						onChangeText={(val) => setPassword(val)}
-						borderWidth={"1"}
-						mt={"5"}
-						px={"4"}
-						variant={"filled"}
-						size={"md"}
-						p={2}
-						placeholder='Entrez votre mot de passe...'
-					/>
+							<Button px="5" isLoading={isLoading} onPress={async () => await validateOrder()} px={"10"}>
+								Valider
+							</Button>
+						</HStack>
+					</> :
+						<Box px={'5'} alignItems={'center'} justifyContent={'center'}>
+							<Box py={'10'}>
+								<Heading mb={'2'}>
+									Veillez-Vous Authentifier!
+								</Heading>
+								<Text mb={'10'}>Connectez-vous ou créez un compte pour pouvoir  commander des tickets</Text>
+								<Button _text={{ textAlign: 'center' }} onPress={() => navigation.push('Login')}>Se Connecter</Button>
+								<Button mb={'10'} mt="3" onPress={() => navigation.push('Signup')} variant={'outline'}>Créer un compte</Button>
+							</Box>
 
-					<HStack mt={"10"}>
-						{/* <Button px={"10"} variant='outline' mr='3'>
-							Annuler
-						</Button> */}
-						<Button isLoading={isLoading} onPress={async () => await validateOrder()} px={"10"}>
-							Valider
-						</Button>
-					</HStack>
+						</Box>
+
+					}
 				</Actionsheet.Content>
 			</Actionsheet>
 		</>

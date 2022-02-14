@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {useEffect, useState, useCallback } from "react";
 import {
 	ScrollView,
 	Skeleton,
@@ -12,7 +12,9 @@ import {
 	Button,
 	FlatList,
 	Text,
+
 } from "native-base";
+import { RefreshControl } from "react-native-web";
 import ListTopEvents from "../../common/components/Lists/ListTopEvents";
 import EventCard from "../../common/components/Cards/EventCard";
 import AutherEvents from "../../common/components/Lists/AutherEvents";
@@ -27,7 +29,18 @@ import { useLoginMutation } from "../auth/authApi";
 import { setStoredUser } from "../auth/authSlice";
 import { useDispatch } from "react-redux";
 
+const wait = timeout => {
+	return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  
 export default function HomeScreen({ navigation }) {
+	const [refreshing, setRefreshing] = React.useState(false);
+
+	const onRefresh = useCallback(() => {
+	  setRefreshing(true);
+	  wait(2000).then(() => setRefreshing(false));
+	}, []);
+
 	const dispatch = useDispatch();
 	const { data: categories } = useGetCategoriesQuery();
 	const { data, isLoading, error } = useGetEventsQuery();
@@ -66,6 +79,7 @@ export default function HomeScreen({ navigation }) {
 		<Box safeArea bgColor='gray.100'>
 			{/* <AppBar /> */}
 			<ScrollView
+				refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 				showsVerticalScrollIndicator={false}
 				stickyHeaderIndices={[0]}
 				_contentContainerStyle={{
@@ -101,40 +115,63 @@ export default function HomeScreen({ navigation }) {
 						}
 					/>
 					<HStack>
-						<FlatList
+						<ScrollView horizontal>
+						<Button
+								onPress={() => setActiveCategorie('0')}
+								borderBottomWidth={activeCategorie === '0' ? "2" : "1"}
+								borderColor={
+									activeCategorie === '0' ? "primary.500" : "gray.300"
+								}
+								variant={"ghost"}
+								px={"5"}
+								mx={"0"}
+								size={"lg"}
+							>
+								<Text
+									color={"gray.700"}
+									fontWeight={activeCategorie === '0' ? "bold" : "medium"}
+								>
+									Tous
+								</Text>
+							</Button>
+							{categories?.map((item)=>(
+								<Button
+								onPress={() => setActiveCategorie(item)}
+								borderBottomWidth={activeCategorie === item ? "2" : "1"}
+								borderColor={
+									activeCategorie === item ? "primary.500" : "gray.300"
+								}
+								variant={"ghost"}
+								px={"5"}
+								mx={"0"}
+								size={"lg"}
+							>
+								<Text
+									color={"gray.700"}
+									fontWeight={activeCategorie === item ? "bold" : "medium"}
+								>
+									{item}
+								</Text>
+							</Button>
+							))}
+						</ScrollView>
+						{/* <FlatList
 							px={"2"}
 							bgColor={"gray.100"}
 							horizontal
 							data={categories ? categories: []}
 							renderItem={({ item }) => (
-								<Button
-									onPress={() => setActiveCategorie(item)}
-									borderBottomWidth={activeCategorie === item ? "2" : "1"}
-									borderColor={
-										activeCategorie === item ? "primary.500" : "gray.300"
-									}
-									variant={"ghost"}
-									px={"5"}
-									mx={"0"}
-									size={"lg"}
-								>
-									<Text
-										color={"gray.700"}
-										fontWeight={activeCategorie === item ? "bold" : "medium"}
-									>
-										{item}
-									</Text>
-								</Button>
+								
 							)}
 							keyExtractor={(item) => item}
 							showsHorizontalScrollIndicator={false}
-						/>
+						/> */}
 						{/* {categories?.map((item, index) => (
 						<Button key={index} variant={'subtle'} size={'lg'} rounded={'lg'} colorScheme='primary'>{item}</Button>
 					))} */}
 					</HStack>
 				</VStack>
-				{!activeCategorie?	<Box>
+				{!activeCategorie || activeCategorie ==='0'?	<Box>
 				<ListTopEvents data={data} navigation={navigation} />
 				<Heading fontSize='xl' p='4' pb='3'>
 					Évenement à la une
