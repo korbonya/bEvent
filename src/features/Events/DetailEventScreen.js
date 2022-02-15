@@ -14,7 +14,7 @@ import {
 	IconButton,
 	AspectRatio,
 	Image,
-	Spinner
+	Spinner,
 } from "native-base";
 import ImageCaroussel from "../../common/components/Caroussel/ImageCaroussel";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -36,6 +36,8 @@ export default function DetailEventScreen({ route, navigation }) {
 			setTickets(data.tickets);
 		}
 	}, [data]);
+
+	
 
 	return (
 		<>
@@ -91,11 +93,11 @@ export default function DetailEventScreen({ route, navigation }) {
 								alt={data?.titre}
 							/>
 						</AspectRatio>
-						<VStack pb={'5'} px={"5"}>
+						<VStack pb={"5"} px={"5"}>
 							<Heading mt={"8"} size='md' mb='4'>
 								<Text mr={"2"}>{data?.titre}</Text>
 							</Heading>
-								{/* <Heading size={'lg'}>
+							{/* <Heading size={'lg'}>
 									<Button variant={'subtle'} rounded={"xl"}  colorScheme='primary'>
 									{data?.type}
 								</Button>
@@ -112,11 +114,18 @@ export default function DetailEventScreen({ route, navigation }) {
 									<Box>
 										<Heading fontSize={"lg"} fontWeight={"bold"}>
 											{" "}
-											{dformat(data?.date_debut, "ddd, Do MMM")}{" - "}
+											{dformat(data?.date_debut, "ddd, Do MMM")}
+											{" - "}
 											{dformat(data?.date_fin, "ddd, Do MMM YY")}{" "}
 										</Heading>
-										<Text color={'gray.500'} fontWeight={'bold'} fontSize={"md"}>{data?.heure_debut}
-										{" - "}{data?.heure_fin}
+										<Text
+											color={"gray.500"}
+											fontWeight={"bold"}
+											fontSize={"md"}
+										>
+											{data?.heure_debut}
+											{" - "}
+											{data?.heure_fin}
 										</Text>
 									</Box>
 									{/* <Box>
@@ -139,7 +148,13 @@ export default function DetailEventScreen({ route, navigation }) {
 										<Heading fontSize={"lg"} fontWeight={"bold"}>
 											Type
 										</Heading>
-										<Text color={'gray.500'} fontWeight={'bold'} fontSize={"md"}>{data?.type}</Text>
+										<Text
+											color={"gray.500"}
+											fontWeight={"bold"}
+											fontSize={"md"}
+										>
+											{data?.type}
+										</Text>
 									</Box>
 								</HStack>
 								<HStack>
@@ -152,9 +167,15 @@ export default function DetailEventScreen({ route, navigation }) {
 									/>
 									<Box>
 										<Heading fontSize={"lg"} fontWeight={"bold"}>
-											Ville:{" "}{data?.ville} 
+											Ville: {data?.ville}
 										</Heading>
-										<Text color={'gray.500'} fontWeight={'bold'} fontSize={"md"}>Lieu: {''} {data?.lieu}</Text>
+										<Text
+											color={"gray.500"}
+											fontWeight={"bold"}
+											fontSize={"md"}
+										>
+											Lieu: {""} {data?.lieu}
+										</Text>
 									</Box>
 								</HStack>
 								<HStack>
@@ -169,7 +190,13 @@ export default function DetailEventScreen({ route, navigation }) {
 										<Heading fontSize={"lg"} fontWeight={"bold"}>
 											Organisateur
 										</Heading>
-										<Text color={'gray.500'} fontWeight={'bold'} fontSize={'md'}>{data?.organisateur}</Text>
+										<Text
+											color={"gray.500"}
+											fontWeight={"bold"}
+											fontSize={"md"}
+										>
+											{data?.organisateur}
+										</Text>
 									</Box>
 								</HStack>
 							</VStack>
@@ -185,9 +212,9 @@ export default function DetailEventScreen({ route, navigation }) {
 						</VStack>
 					</Box>
 				) : (
-					<Box flex={1} justifyContent={'center'} alignItems={'center'} >
-    <Spinner accessibilityLabel="Chargement" />
-   </Box>
+					<Box flex={1} justifyContent={"center"} alignItems={"center"}>
+						<Center><Spinner accessibilityLabel='Chargement' /></Center>
+					</Box>
 				)}
 			</ScrollView>
 

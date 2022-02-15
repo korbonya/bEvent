@@ -13,7 +13,7 @@ export default function AppBar2({title, navigation}){
             <IconButton onPress={() => navigation.goBack()} icon={<Icon size="sm" as={<MaterialIcons name='arrow-back' />} color="white" />} />
             <Text color="white" fontSize="20" fontWeight='bold'> {title} </Text>
             {/* <IconButton icon={<Icon as={<MaterialIcons name='favorite' />} size='sm' color="white" />} /> */}
-            <IconButton icon={<Icon as={<MaterialIcons name='notifications-none' />} size='sm' color="white" />} />
+            <IconButton icon={<Icon as={<MaterialIcons name='notifications-none' />} size='sm' color="#0967D2" />} />
         </HStack>
         
     </>

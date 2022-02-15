@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
 	ScrollView,
 	Skeleton,
@@ -10,48 +10,38 @@ import {
 	Input,
 	Icon,
 	Button,
-	FlatList,
 	Text,
-
 } from "native-base";
-import {RefreshControl} from 'react-native'
+import { RefreshControl } from "react-native";
 import ListTopEvents from "../../common/components/Lists/ListTopEvents";
 import EventCard from "../../common/components/Cards/EventCard";
 import AutherEvents from "../../common/components/Lists/AutherEvents";
-import {
-	useGetEventsQuery,
-	useGetEventQuery,
-	useGetCategoriesQuery,
-} from "../Events/eventApi";
+import { useGetEventsQuery, useGetCategoriesQuery } from "../Events/eventApi";
 import { MaterialIcons } from "@expo/vector-icons";
 import { getUser } from "../../common/utils/secureStore";
-import { useLoginMutation } from "../auth/authApi";
 import { setStoredUser } from "../auth/authSlice";
 import { useDispatch } from "react-redux";
 
-const wait = timeout => {
-	return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-  
+const wait = (timeout) => {
+	return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 export default function HomeScreen({ navigation }) {
 	const [refreshing, setRefreshing] = React.useState(false);
 
-	
-
 	const dispatch = useDispatch();
-	const { data: categories } = useGetCategoriesQuery();
+	const { data: categories, isLoading:loadCategorie, isFetching:fetchCategorie, refetch:refetchCategorie } = useGetCategoriesQuery();
 	const { data, refetch, isFetching, isLoading, error } = useGetEventsQuery();
-	const [listCategorie, setListCategorie] = useState(['Tous'])
-	const [activeCategorie, setActiveCategorie] = useState('');
+	const [activeCategorie, setActiveCategorie] = useState("0");
 	console.log("error :", error);
-	console.log('data', data)
-	const [login, { isLoading: loadLogin }] = useLoginMutation();
+	console.log("data", data);
 
 	const onRefresh = useCallback(async () => {
 		setRefreshing(true);
-		await refetch()
+		await refetch();
+		await refetchCategorie()
 		setRefreshing(false);
-	  }, []);
+	}, []);
 	const getUserProfile = useCallback(async () => {
 		try {
 			const user = await getUser();
@@ -71,23 +61,15 @@ export default function HomeScreen({ navigation }) {
 		getUserProfile();
 	}, [getUserProfile]);
 
-	// useEffect(() => {
-	// 	if(categories){
-	// 		setListCategorie(['Tous', ...categories])
-	// 	}
-	// },[categories])
-	// console.log(listCategorie)
+	
+
 	return (
 		<Box safeArea bgColor='gray.100'>
 			{/* <AppBar /> */}
 			<ScrollView
 				refreshControl={
-					<RefreshControl
-					  refreshing={refreshing}
-					  onRefresh={onRefresh}
-					/>
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 				}
-				
 				showsVerticalScrollIndicator={false}
 				stickyHeaderIndices={[0]}
 				_contentContainerStyle={{
@@ -124,11 +106,11 @@ export default function HomeScreen({ navigation }) {
 					/>
 					<HStack>
 						<ScrollView horizontal>
-						<Button
-								onPress={() => setActiveCategorie('0')}
-								borderBottomWidth={activeCategorie === '0' ? "2" : "1"}
+							<Button
+								onPress={() => setActiveCategorie("0")}
+								borderBottomWidth={activeCategorie === "0" ? "2" : "1"}
 								borderColor={
-									activeCategorie === '0' ? "primary.500" : "gray.300"
+									activeCategorie === "0" ? "primary.500" : "gray.300"
 								}
 								variant={"ghost"}
 								px={"5"}
@@ -137,71 +119,63 @@ export default function HomeScreen({ navigation }) {
 							>
 								<Text
 									color={"gray.700"}
-									fontWeight={activeCategorie === '0' ? "bold" : "medium"}
+									fontWeight={activeCategorie === "0" ? "bold" : "medium"}
 								>
 									Tous
 								</Text>
 							</Button>
-							{categories?.map((item)=>(
+							{categories?.map((item) => (
 								<Button
-								onPress={() => setActiveCategorie(item)}
-								borderBottomWidth={activeCategorie === item ? "2" : "1"}
-								borderColor={
-									activeCategorie === item ? "primary.500" : "gray.300"
-								}
-								variant={"ghost"}
-								px={"5"}
-								mx={"0"}
-								size={"lg"}
-							>
-								<Text
-									color={"gray.700"}
-									fontWeight={activeCategorie === item ? "bold" : "medium"}
+									onPress={() => setActiveCategorie(item)}
+									borderBottomWidth={activeCategorie === item ? "2" : "1"}
+									borderColor={
+										activeCategorie === item ? "primary.500" : "gray.300"
+									}
+									variant={"ghost"}
+									px={"5"}
+									mx={"0"}
+									size={"lg"}
 								>
-									{item}
-								</Text>
-							</Button>
+									<Text
+										
+										color={"gray.700"}
+										fontWeight={activeCategorie === item ? "bold" : "medium"}
+									>
+										{(item)}
+									</Text>
+								</Button>
 							))}
 						</ScrollView>
-						{/* <FlatList
-							px={"2"}
-							bgColor={"gray.100"}
-							horizontal
-							data={categories ? categories: []}
-							renderItem={({ item }) => (
-								
-							)}
-							keyExtractor={(item) => item}
-							showsHorizontalScrollIndicator={false}
-						/> */}
-						{/* {categories?.map((item, index) => (
-						<Button key={index} variant={'subtle'} size={'lg'} rounded={'lg'} colorScheme='primary'>{item}</Button>
-					))} */}
 					</HStack>
 				</VStack>
-				{!activeCategorie || activeCategorie ==='0'?	<Box>
-				<ListTopEvents data={data} navigation={navigation} />
-				<Heading fontSize='xl' p='4' pb='3'>
-					Évenement à la une
-				</Heading>
-				{!isLoading && !isFetching && data ? (
-					<EventCard data={data[1]} navigation={navigation} />
-				) : (
-					<LoadEventH />
+				{!activeCategorie || activeCategorie === "0" ? 
+					!isFetching && !isLoading && !loadCategorie && !fetchCategorie && data?(	<Box>
+						<ListTopEvents data={data} navigation={navigation} />
+						<Heading fontSize='xl' p='4' pb='3'>
+							Évenement à la une
+						</Heading>
+					
+							<EventCard data={data[1]} navigation={navigation} />
+					
+						<Heading fontSize='xl' p='4' pb='1'>
+							Autres Évenement
+						</Heading>
+
+						<AutherEvents navigation={navigation} data={data} />
+					</Box>):(<LoadEventH />)
+				
+				 : (
+					<Box>
+						<Heading fontSize='xl' p='4' pb='1'>
+							Listes des Évenement
+						</Heading>
+						<AutherEvents
+							filter={activeCategorie}
+							navigation={navigation}
+							data={data}
+						/>
+					</Box>
 				)}
-				<Heading fontSize='xl' p='4' pb='1'>
-					Autres Évenement
-				</Heading>
-
-				<AutherEvents navigation={navigation} data={data} />
-
-				</Box>:<Box>
-				<Heading fontSize='xl' p='4' pb='1'>
-					Listes des Évenement
-				</Heading>
-					<AutherEvents filter={activeCategorie} navigation={navigation} data={data} />
-				</Box>}
-
 			</ScrollView>
 		</Box>
 	);
@@ -210,6 +184,106 @@ export default function HomeScreen({ navigation }) {
 const LoadEventH = () => {
 	return (
 		<Center w='100%'>
+			<VStack
+				w='90%'
+				maxW='400'
+				borderWidth='1'
+				space={8}
+				rounded='md'
+				_dark={{
+					borderColor: "coolGray.500",
+				}}
+				_light={{
+					borderColor: "coolGray.200",
+				}}
+				p='4'
+			>
+				<Skeleton flex='1' h='50' rounded='md' startColor='coolGray.100' />
+				<HStack pb={'3'}>
+					<VStack
+						w='60%'
+						maxW='400'
+						borderWidth='1'
+						space={8}
+						overflow='hidden'
+						mr={'2'}
+						rounded='md'
+						_dark={{
+							borderColor: "coolGray.500",
+						}}
+						_light={{
+							borderColor: "coolGray.200",
+						}}
+					>
+						<Skeleton h='40' />
+						<Skeleton.Text px='4' />
+					</VStack>
+
+					<VStack
+						w='50%'
+						maxW='400'
+						borderWidth='1'
+						space={8}
+						overflow='hidden'
+						rounded='md'
+						_dark={{
+							borderColor: "coolGray.500",
+						}}
+						_light={{
+							borderColor: "coolGray.200",
+						}}
+					>
+						<Skeleton h='40' />
+						<Skeleton.Text px='4' />
+					</VStack>
+
+
+				</HStack>
+
+				<VStack
+						w='98%'
+						maxW='400'
+						borderWidth='1'
+						space={8}
+						overflow='hidden'
+						my={'5'}
+						rounded='md'
+						_dark={{
+							borderColor: "coolGray.500",
+						}}
+						_light={{
+							borderColor: "coolGray.200",
+						}}
+					>
+						<Skeleton h='40' />
+						<Skeleton.Text px='4' />
+					</VStack>
+
+				<HStack
+				w='90%'
+				maxW='400'
+				borderWidth='1'
+				space={8}
+				rounded='md'
+				_dark={{
+					borderColor: "coolGray.500",
+				}}
+				_light={{
+					borderColor: "coolGray.200",
+				}}
+				p='4'
+			>
+				<Skeleton flex='2' h='100' rounded='md' startColor='coolGray.100' />
+				<VStack flex='3' space='4'>
+				<HStack space='2' alignItems='center'>
+						<Skeleton size='5' rounded='full' />
+						<Skeleton h='3' flex='2' rounded='full' />
+					</HStack>
+					<Skeleton.Text />
+				</VStack>
+			</HStack>
+
+
 			<HStack
 				w='90%'
 				maxW='400'
@@ -224,17 +298,27 @@ const LoadEventH = () => {
 				}}
 				p='4'
 			>
-				<Skeleton flex='1' h='150' rounded='md' startColor='coolGray.100' />
+				<Skeleton flex='2' h='100' rounded='md' startColor='coolGray.100' />
 				<VStack flex='3' space='4'>
+				<HStack space='2' alignItems='center'>
+						<Skeleton size='5' rounded='full' />
+						<Skeleton h='3' flex='2' rounded='full' />
+					</HStack>
+					<Skeleton.Text />
+				</VStack>
+			</HStack>
+
+				{/* <VStack flex='3' space='4'>
 					<Skeleton startColor='coulGray.300' />
+
 					<Skeleton.Text />
 					<HStack space='2' alignItems='center'>
 						<Skeleton size='5' rounded='full' />
 						<Skeleton h='3' flex='2' rounded='full' />
 						<Skeleton h='3' flex='1' rounded='full' startColor='coolGray.300' />
 					</HStack>
-				</VStack>
-			</HStack>
+				</VStack> */}
+			</VStack>
 		</Center>
 	);
 };
