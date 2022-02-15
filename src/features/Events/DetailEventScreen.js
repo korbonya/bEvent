@@ -46,7 +46,7 @@ export default function DetailEventScreen({ route, navigation }) {
 				stickyHeaderIndices={[0]}
 			>
 				<Box>
-					<StatusBar backgroundColor='#0967D2' barStyle='light-content' />
+					<StatusBar backgroundColor='#0825dd' barStyle='light-content' />
 					<Box pt='5' safeAreaTop backgroundColor='primary.500' />
 
 					<HStack

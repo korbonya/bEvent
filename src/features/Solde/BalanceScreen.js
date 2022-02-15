@@ -111,7 +111,7 @@ export default function BalanceScreen({navigation}) {
 				<Button mt={'10'} mx={'5'} onPress={onOpen}>Rechargez votre compte</Button>
 				<Actionsheet isOpen={isOpen} onClose={onClose}>
 					<Actionsheet.Content>
-						<Box w='100%' h={60} px={4} justifyContent='center'>
+						<Box w='100%' h={60} px={4} alignItems={'center'} justifyContent='center'>
 							<Text
 								fontSize='16'
 								color='gray.500'
@@ -122,13 +122,13 @@ export default function BalanceScreen({navigation}) {
 								Réchargez votre compte
 							</Text>
 						</Box>
-						<Actionsheet.Item>
-							<Input placeholder="Montant" variant={'outline'} w={'full'} value={montant} onChangeText={(val) => setMontant(val)} placeholder="Numéro de téléphone"/>
+						<Actionsheet.Item w={'full'} justifyContent={'center'} >
+							<Input placeholder="Montant" variant={'outline'} w={'80'} value={montant} onChangeText={(val) => setMontant(val)} placeholder="Numéro de téléphone"/>
 						</Actionsheet.Item>
-						<Actionsheet.Item>
-							<Input placeholder="Mot de passe" variant={'outline'} w={'full'}  value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
+						<Actionsheet.Item justifyContent={'center'}>
+							<Input placeholder="Mot de passe" variant={'outline'} w={'80'}  value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
 						</Actionsheet.Item>
-						<Button  onPress={async() => await provideBalance({montant, password})}>Valider</Button>
+						<Button px={'10'} onPress={async() => await provideBalance({montant, password})}>Valider</Button>
 					</Actionsheet.Content>
 				</Actionsheet>
 			</Box>}

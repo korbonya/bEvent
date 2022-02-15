@@ -81,7 +81,7 @@ export default function OrderAction({
 			</Button>
 			<Actionsheet isOpen={isOpen} onClose={onClose}>
 				<Actionsheet.Content>
-					{isLoading ? <>
+					{isLoggedIn ? <>
 						<Box w='100%' py='5' px={4} justifyContent='center'>
 							<Text fontSize='lg'>{title}</Text>
 							<Heading my={"2"} fontSize={"md"}>
