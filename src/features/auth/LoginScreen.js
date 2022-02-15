@@ -8,6 +8,7 @@ import {
 	Button,
 	ScrollView,
 	Link,
+	Center
 } from "native-base";
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useForm, Controller } from "react-hook-form";
@@ -59,10 +60,10 @@ export default function LoginScreen({ navigation }) {
 		}
 	};
 	return (
-		<>
-			<AppBar2 navigation={navigation} title={"Compte"} />
-			<ScrollView >
-				<VStack px={"5"} justifyContent={'center'} flex={1} p='2' py='8'>
+		<Box flex={1}>
+			{/* <AppBar2 navigation={navigation} title={"Compte"} /> */}
+			
+				<Box flex={1} w="full" px={"5"} alignItems='center' justifyContent={'center'} p='2' py='8'>
 					<Heading
 						_dark={{
 							color: "warmGray.50",
@@ -72,6 +73,7 @@ export default function LoginScreen({ navigation }) {
 					</Heading>
 					<Heading
 						mt='1'
+						mb={'5'}
 						color='coolGray.600'
 						_dark={{
 							color: "warmGray.200",
@@ -81,7 +83,7 @@ export default function LoginScreen({ navigation }) {
 					>
 						Connectez-vous et continuez!
 					</Heading>
-					<VStack space={3} mt='5'>
+					<VStack w='full' space={3} mt='5'>
 						<Controller
 							control={control}
 							rules={{
@@ -160,12 +162,13 @@ export default function LoginScreen({ navigation }) {
 							isLoadingText='Connexion'
 							onPress={handleSubmit(onSubmit)}
 							size={"lg"}
+							py='3'
 							mt='2'
 	
 						>
 							Se Connecter
 						</Button>
-						<Link
+						{/* <Link
 							_text={{
 								fontSize: "lg",
 								fontWeight: "500",
@@ -175,10 +178,10 @@ export default function LoginScreen({ navigation }) {
 							mt='1'
 						>
 							Mot de passe Oublié?
-						</Link>
+						</Link> */}
 					</VStack>
-				</VStack>
-			</ScrollView>
-		</>
+				</Box>
+			
+		</Box>
 	);
 }

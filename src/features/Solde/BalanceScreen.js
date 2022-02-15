@@ -17,7 +17,7 @@ import AppBar2 from "../../common/components/headers/AppBar2";
 import { useProvideBalanceMutation, useGetBalanceQuery } from "./balanceApi";
 import { deleteUser } from "../../common/utils/secureStore";
 
-export default function BalanceScreen() {
+export default function BalanceScreen({navigation}) {
 	const { data, isLoading, error } = useGetBalanceQuery();
 	const [montant, setMontant] = useState('')
 	const [password, setPassword] = useState('')
@@ -38,7 +38,7 @@ export default function BalanceScreen() {
 	console.log('is error ', error)
 	return (
 		<ScrollView>
-			<AppBar2 title={"Mon Solde"} />
+			<AppBar2 title={"Mon Solde"} navigation={navigation} back={false} />
 			{isLoading?<Box flex={1} justifyContent={'center'} alignItems={'center'} >
     <Spinner accessibilityLabel="Chargement" /> </Box>:<Box flex={1}>
 				<Box
@@ -108,7 +108,7 @@ export default function BalanceScreen() {
 						<Text fontSize={'lg'} textAlign={'center'}>Aucune Transactions</Text>
 					</Box>
 				)}
-				<Button mx={'5'} onPress={onOpen}>Rechargez votre compte</Button>
+				<Button mt={'10'} mx={'5'} onPress={onOpen}>Rechargez votre compte</Button>
 				<Actionsheet isOpen={isOpen} onClose={onClose}>
 					<Actionsheet.Content>
 						<Box w='100%' h={60} px={4} justifyContent='center'>

@@ -36,7 +36,7 @@ function HomeTabs() {
     screenOptions={({ route }) => ({
       lazy:true,
       tabBarStyle:{
-        backgroundColor:'#E6F6FF',
+        backgroundColor:'#e6eafe',
         height:75,
         paddingBottom:5
       },
@@ -66,7 +66,7 @@ function HomeTabs() {
         // You can return any component that you like here!
         return <Box bgColor={focused?'primary.100':'transparent'} py={'1'} px={focused?'5':'0'} rounded={'3xl'}><MaterialCommunityIcons name={iconName} size={size} color={color} /></Box>;
       },
-      tabBarActiveTintColor: "#0967D2",
+      tabBarActiveTintColor: "#0825dd",
       tabBarInactiveTintColor: "gray",
     })}
   >

@@ -24,13 +24,15 @@ export default function ProfilScreen() {
     <Spinner accessibilityLabel="Chargement" /></Box>):( <Box bgColor={'coolGray.50'} flex={'1'} justifyContent={'center'} alignItems='center'>
             <Avatar size="120px" source={{ uri: "https://duux.com/wp-content/uploads/2019/12/68824649-man-standaard-placeholder-avatar-profiel-gray-picture-ge%C3%AFsoleerd-op-witte-achtergrond-voor-uw-ontwerp-.jpg" }} />
             <Heading my={'5'}>
-                {data?.nom}
+                {data?.prenom +" " + data?.nom}
             </Heading>
             <Text fontSize={'lg'}>mamadoualiou@gmail.com</Text>
             <Text fontSize={'lg'}> +224 622 30 12 45</Text>
             <Text py='2' fontSize={'lg'}>Cosa Tannerie</Text>
-            <Button size={'lg'} variant={'outline'} my={'10'}>Modifier votre profil</Button>
-            <Button onPress={handleLogout} variant={'subtle'} colorScheme='danger'>Se déconnecter</Button>
+            <Box mt={'20'} borderTopWidth={'1'} pt='5' w={'full'} borderColor={'gray.300'}  >
+            <Button  size={'lg'} variant={'ghost'} >Modifier votre profil</Button>
+            <Button onPress={handleLogout} variant={'link'} colorScheme='danger'>Se déconnecter</Button>
+            </Box>
         </Box>)}
       </>
     )

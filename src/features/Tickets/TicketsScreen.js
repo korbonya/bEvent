@@ -50,7 +50,7 @@ export default function TicketsScreen({ navigation }) {
 
   return (
     <>
-      <AppBar2 title='Mes Tickets' />
+      <AppBar2 title='Mes Tickets' navigation={navigation} back={false} />
       {isLoading || isFetching ? (
         <LoadEventV />
       ) : tickets && tickets.length === 0 ? (

@@ -105,7 +105,7 @@ export default function HomeScreen({ navigation }) {
 						}
 					/>
 					<HStack>
-						<ScrollView horizontal>
+						<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 							<Button
 								onPress={() => setActiveCategorie("0")}
 								borderBottomWidth={activeCategorie === "0" ? "2" : "1"}

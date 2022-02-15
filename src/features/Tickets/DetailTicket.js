@@ -22,7 +22,7 @@ export default function DetailTicket({route, navigation}) {
 	console.log(data)
 	return (
 		<Box>
-			<AppBar2 title="Ticket" />
+			<AppBar2 title="Ticket" navigation={navigation}/>
             <Box p='2' pb={'5'} shadow={'9'} rounded={'3xl'} mt={'-35px'} bgColor='coolGray.50' mx='5'>
             <Box my='2' borderRadius='md'>
 				<Pressable onPress={() => console.log("You touched me")}>

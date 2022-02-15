@@ -4,7 +4,6 @@ import {
 	Heading,
 	VStack,
 	FormControl,
-	Input,
 	Button,
 	ScrollView,
 } from "native-base";
@@ -46,21 +45,13 @@ export default function SignupScreen({ navigation }) {
 
 	const onSubmit = async (data) => {
 		await signup(data);
-		//    if(isSuccess ) {
-		//        console.log('response', response)
-		//        navigation.navigate('Validate', {
-		//            telephone:data.telephone
-		//        })
-		//    }else if(isError) {
-		//        console.log('the error ::', error)
-		//    }
 	};
 	return (
 		<>
-			<AppBar2 navigation={navigation} title={"Compte"} />
+			{/* <AppBar2 navigation={navigation} title={"Compte"} /> */}
 			<ScrollView>
 				<Box px={"5"} p='2' py='8'>
-					<Heading>
+					<Heading pt={'20'}>
 						Inscription
 					</Heading>
 					<Heading
@@ -82,27 +73,11 @@ export default function SignupScreen({ navigation }) {
 							}}
 							render={({ field: { onChange, onBlur, value } }) => (
 								<FormControl>
-									{/* <FormControl.Label
-										_text={{
-											fontSize: "lg",
-											fontWeight: "bold",
-										}}
-									>
-										Nom
-									</FormControl.Label> */}
 									<InputText 
 									onChangeText={onChange}
 									value={value}
 									label={'Nom'}
 									/>
-									{/* <Input
-										onBlur={onBlur}
-										onChangeText={onChange}
-										value={value}
-										variant={"filled"}
-										bgColor='coolGray.100'
-										fontSize={'lg'}
-										placeholder='Entrez votre nom' /> */}
 								</FormControl>
 							)}
 							name='nom' />
@@ -119,22 +94,6 @@ export default function SignupScreen({ navigation }) {
 									value={value}
 									label={'Prénom'}
 									/>
-									{/* <FormControl.Label
-										_text={{
-											fontSize: "lg",
-											fontWeight: "bold",
-										}}
-									>
-										Prénom
-									</FormControl.Label>
-									<Input
-										onBlur={onBlur}
-										onChangeText={onChange}
-										value={value}
-										variant={"filled"}
-										bgColor='coolGray.100'
-										fontSize={'lg'}
-										placeholder='Entrez votre Prénom' /> */}
 								</FormControl>
 							)}
 							name='prenom' />
@@ -181,35 +140,6 @@ export default function SignupScreen({ navigation }) {
 									value={value}
 									label={'Mot de passe'}
 									/>
-									{/* <FormControl.Label
-										_text={{
-											fontSize: "lg",
-											fontWeight: "bold",
-										}}
-									>
-										Mot de passe
-									</FormControl.Label>
-									<Input
-										onBlur={onBlur}
-										onChangeText={onChange}
-										value={value}
-										type={show ? "text" : "password"}
-										variant={"filled"}
-										bgColor='coolGray.100'
-										fontSize={'lg'}
-
-										InputRightElement={<Button
-											size='sm'
-											variant={'outline'}
-											rounded='none'
-											w={"16"}
-											h='full'
-
-											onPress={() => setShow(!show)}
-										>
-											{show ? "Cacher" : "Voir"}
-										</Button>}
-										placeholder='Entrez votre mot de passe' /> */}
 								</FormControl>
 							)}
 							name='password' />
