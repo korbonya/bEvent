@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {Box,Center, Heading,Spinner, Text, Avatar, Button } from 'native-base'
+import {Box, Center, Heading,Spinner, Text, Avatar, Button } from 'native-base'
 import { useGetProfilQuery, useLogoutMutation } from './authApi'
 import { deleteUser } from '../../common/utils/secureStore'
 
@@ -10,18 +10,14 @@ export default function ProfilScreen() {
         await logout()
         await deleteUser()
     }
-    // useEffect(async ()=>{
-	// 	if(error){
-	// 	  await deleteUser()
-	// 	  navigation.navigate('Login')
-	// 	}
-	//   },[error])
-
-    // console.log('the user data is on profile ', data)
-    console.log('the response of getprofile', data)
-    console.log('profile load :', isLoading)
-    console.log('profile success', isSuccess)
-    console.log('the error ',error)
+  
+    useEffect(async () => {
+        if(error || logoutError){
+          await deleteUser()
+          navigation.navigate('Login')
+        }
+      },[error])
+  
     return (
       <>
         {isLoading?(<Box flex={1} justifyContent={'center'} alignItems={'center'} >

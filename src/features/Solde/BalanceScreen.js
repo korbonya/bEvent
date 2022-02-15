@@ -26,12 +26,13 @@ export default function BalanceScreen() {
 		{data:response, isLoading: loadProvide, isSuccess },
 	] = useProvideBalanceMutation();
 	const { isOpen, onOpen, onClose } = useDisclose();
-	// useEffect(async ()=>{
-	// 	if(error){
-	// 	  await deleteUser()
-	// 	  navigation.navigate('Login')
-	// 	}
-	//   },[error])
+	useEffect(async () => {
+		if(error){
+		  await deleteUser()
+		  navigation.navigate('Login')
+		}
+	  },[error])
+
 	console.log('the response', response)
 	console.log('le solde  ', data)
 	console.log('is error ', error)
