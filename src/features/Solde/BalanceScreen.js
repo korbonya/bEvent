@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useCallback, useState} from "react";
 import {
 	Box,
 	HStack,
@@ -13,12 +13,14 @@ import {
 	Button,
 	Spinner
 } from "native-base";
+import {RefreshControl} from 'react-native'
+
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useProvideBalanceMutation, useGetBalanceQuery } from "./balanceApi";
 import { deleteUser } from "../../common/utils/secureStore";
 
 export default function BalanceScreen({navigation}) {
-	const { data, isLoading, error } = useGetBalanceQuery();
+	const { data, refetch, isLoading, error } = useGetBalanceQuery();
 	const [montant, setMontant] = useState('')
 	const [password, setPassword] = useState('')
 	const [
@@ -26,6 +28,14 @@ export default function BalanceScreen({navigation}) {
 		{data:response, isLoading: loadProvide, isSuccess },
 	] = useProvideBalanceMutation();
 	const { isOpen, onOpen, onClose } = useDisclose();
+	const [refreshing, setRefreshing] = React.useState(false);
+
+	const onRefresh = useCallback(async () => {
+		setRefreshing(true);
+		await refetch();
+		setRefreshing(false);
+	}, []);
+
 	useEffect(async () => {
 		if(error){
 		  await deleteUser()
@@ -37,7 +47,11 @@ export default function BalanceScreen({navigation}) {
 	console.log('le solde  ', data)
 	console.log('is error ', error)
 	return (
-		<ScrollView>
+		<ScrollView
+		refreshControl={
+			<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+		  }
+		>
 			<AppBar2 title={"Mon Solde"} navigation={navigation} back={false} />
 			{isLoading?<Box flex={1} justifyContent={'center'} alignItems={'center'} >
     <Spinner accessibilityLabel="Chargement" /> </Box>:<Box flex={1}>

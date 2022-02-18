@@ -64,7 +64,7 @@ export default function DetailTicket({route, navigation}) {
 			<Box mt={'8'} width={"full"}>
 				<Heading pl={'5'} mb={'5'} fontSize='md'>QRcode</Heading>
 				<Box justifyContent={'space-between'} alignItems={'center'}>
-                    <QRCode size={300} value='http://awesome.link.qr' />
+                    <QRCode size={300} value={data.identifiant} />
                 </Box>
 			</Box>
             </Box>
