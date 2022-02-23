@@ -21,7 +21,7 @@ export default function ProfilScreen() {
     }
   
     useEffect(async () => {
-        if(error || logoutError){
+        if(error && error.status || logoutError){
           await deleteUser()
           navigation.navigate('Login')
         }

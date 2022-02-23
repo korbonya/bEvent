@@ -164,7 +164,7 @@ export default function LoginScreen({ navigation }) {
 							size={"lg"}
 							py='3'
 							mt='2'
-	
+						    shadow={5}
 						>
 							Se Connecter
 						</Button>

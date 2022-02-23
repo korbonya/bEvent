@@ -15,6 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useOrderTicketMutation } from "../../../features/Events/eventApi";
 import { useSelector } from "react-redux";
+import { useForm, Controller } from "react-hook-form";
 
 export default function OrderAction({
 	navigation,
@@ -24,11 +25,16 @@ export default function OrderAction({
 	eventId,
 	data,
 }) {
-	const { isLoggedIn } = useSelector(state => state.auth)
+	const { isLoggedIn } = useSelector((state) => state.auth);
 	const [
 		orderTicket,
-		{ isLoading, isSuccess, isError, data: response },
+		{ isLoading, isSuccess, isError, error, data: response },
 	] = useOrderTicketMutation();
+	const { control, handleSubmit, formState: { errors } } = useForm({
+		defaultValues: {
+		  password: '',
+		}
+	  });
 	const { isOpen, onOpen, onClose } = useDisclose();
 	const toast = useToast();
 	const [password, setPassword] = useState("");
@@ -46,9 +52,16 @@ export default function OrderAction({
 					);
 				},
 			});
-			onClose()
+			onClose();
 		}
 	}, [isSuccess, response]);
+
+	useEffect(async () => {
+		if (error && error.status == 401) {
+			await deleteUser();
+			navigation.navigate("Login");
+		}
+	}, [error]);
 
 	const increment = () => {
 		if (nombre < Number(selectTicket?.restant)) {
@@ -60,15 +73,15 @@ export default function OrderAction({
 		if (nombre > 0) setNombre(nombre - 1);
 	};
 
-	const validateOrder = async () => {
-		const data = {
+	const validateOrder = async (data) => {
+		const submitData = {
 			nombre: nombre.toString(),
 			ticketId: ticketId,
 			coupon: null,
-			password: password.toString(),
+			password: data.password,
 		};
 		try {
-			const paylaod = await orderTicket({ id: eventId, ...data }).unwrap();
+			const paylaod = await orderTicket({ id: eventId, ...submitData }).unwrap();
 			console.log("response : ", paylaod);
 		} catch (error) {
 			console.log(error);
@@ -76,81 +89,108 @@ export default function OrderAction({
 	};
 	return (
 		<>
-			<Button mx={'5'} size={"lg"} mt={'0'} mb={'5'} onPress={onOpen}>
+			<Button mx={"5"} size={"lg"} mt={"0"} mb={"5"} onPress={onOpen}>
 				Commander ce ticket
 			</Button>
 			<Actionsheet isOpen={isOpen} onClose={onClose}>
 				<Actionsheet.Content>
-					{isLoggedIn ? <>
-						<Box w='100%' py='5' px={4} justifyContent='center'>
-							<Text fontSize='lg'>{title}</Text>
-							<Heading my={"2"} fontSize={"md"}>
-								{" "}
-								{selectTicket?.reference}
-							</Heading>
-						</Box>
-						<HStack justifyContent='space-between' alignItems={"center"}>
-							<IconButton
-								size='md'
-								variant='solid'
-								rounded={"full"}
-								mx='12'
-								onPress={() => decrement()}
-								_icon={{
-									as: Feather,
-									name: "minus",
-								}}
-							/>
-							<Text bold fontSize={"lg"}>
-								{nombre} tickets
-							</Text>
-
-							<IconButton
-								size='md'
-								variant='solid'
-								rounded={"full"}
-								mx='12'
-								onPress={() => increment()}
-								_icon={{
-									as: MaterialIcons,
-									name: "add",
-								}}
-							/>
-						</HStack>
-
-						<Input
-							type='password'
-							value={password}
-							onChangeText={(val) => setPassword(val)}
-							borderWidth={"1"}
-							mt={"5"}
-							px={"4"}
-							variant={"filled"}
-							size={"md"}
-							p={2}
-							placeholder='Entrez votre mot de passe...'
-						/>
-
-						<HStack mt={"10"}>
-
-							<Button px="5" isLoading={isLoading} onPress={async () => await validateOrder()} px={"10"}>
-								Valider
-							</Button>
-						</HStack>
-					</> :
-						<Box px={'5'} alignItems={'center'} justifyContent={'center'}>
-							<Box py={'10'}>
-								<Heading mb={'2'}>
-									Veillez-Vous Authentifier!
+					{isLoggedIn ? (
+						<>
+							<Box w='100%' py='5' px={4} justifyContent='center'>
+								<Text fontSize='lg'>{title}</Text>
+								<Heading my={"2"} fontSize={"md"}>
+									{" "}
+									{selectTicket?.reference}
 								</Heading>
-								<Text mb={'10'}>Connectez-vous ou créez un compte pour pouvoir  commander des tickets</Text>
-								<Button _text={{ textAlign: 'center' }} onPress={() => navigation.push('Login')}>Se Connecter</Button>
-								<Button mb={'10'} mt="3" onPress={() => navigation.push('Signup')} variant={'outline'}>Créer un compte</Button>
 							</Box>
+							<HStack justifyContent='space-between' alignItems={"center"}>
+								<IconButton
+									size='md'
+									variant='solid'
+									rounded={"full"}
+									mx='12'
+									onPress={() => decrement()}
+									_icon={{
+										as: Feather,
+										name: "minus",
+									}}
+								/>
+								<Text bold fontSize={"lg"}>
+									{nombre} tickets
+								</Text>
 
+								<IconButton
+									size='md'
+									variant='solid'
+									rounded={"full"}
+									mx='12'
+									onPress={() => increment()}
+									_icon={{
+										as: MaterialIcons,
+										name: "add",
+									}}
+								/>
+							</HStack>
+
+							<Controller
+        control={control}
+        rules={{
+         required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+			<Input
+			type='password'
+			value={value}
+			onChangeText={onChange}
+			borderWidth={"1"}
+			mt={"5"}
+			px={"4"}
+			variant={"filled"}
+			size={"md"}
+			p={2}
+			placeholder='Entrez votre mot de passe...'
+		/>
+        )}
+        name="password"
+      />
+	  {errors.password && <Text> le mot de passe est obligatoire.</Text>}
+
+							<HStack mt={"10"}>
+								<Button
+									px='5'
+									isLoading={isLoading}
+									onPress={async () => await validateOrder()}
+									px={"10"}
+								>
+									Valider
+								</Button>
+							</HStack>
+						</>
+					) : (
+						<Box px={"5"} alignItems={"center"} justifyContent={"center"}>
+							<Box py={"10"}>
+								<Heading mb={"2"}>Veillez-Vous Authentifier!</Heading>
+								<Text mb={"10"}>
+									Connectez-vous ou créez un compte pour pouvoir commander des
+									tickets
+								</Text>
+								<Button
+									_text={{ textAlign: "center" }}
+									onPress={() => navigation.push("Login")}
+								>
+									Se Connecter
+								</Button>
+								<Button
+									mb={"10"}
+									mt='3'
+									onPress={() => navigation.push("Signup")}
+									variant={"outline"}
+								>
+									Créer un compte
+								</Button>
+							</Box>
 						</Box>
-
-					}
+					)}
 				</Actionsheet.Content>
 			</Actionsheet>
 		</>

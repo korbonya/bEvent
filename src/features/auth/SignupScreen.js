@@ -77,6 +77,7 @@ export default function SignupScreen({ navigation }) {
 									onChangeText={onChange}
 									value={value}
 									label={'Nom'}
+									keyboard='default'
 									/>
 								</FormControl>
 							)}
@@ -93,6 +94,7 @@ export default function SignupScreen({ navigation }) {
 									onChangeText={onChange}
 									value={value}
 									label={'Prénom'}
+									keyboard='default'
 									/>
 								</FormControl>
 							)}
@@ -144,7 +146,10 @@ export default function SignupScreen({ navigation }) {
 							)}
 							name='password' />
 
-						<Button isLoading={isLoading} isLoadingText="Inscription" onPress={handleSubmit(onSubmit)} size={"lg"} mt='2'>
+						<Button isLoading={isLoading} isLoadingText="Inscription" onPress={handleSubmit(onSubmit)} 
+						size={"lg"}
+						py='3'
+						mt='2'>
 							Créer votre compte
 						</Button>
 

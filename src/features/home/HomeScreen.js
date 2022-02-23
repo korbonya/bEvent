@@ -22,6 +22,8 @@ import { getUser } from "../../common/utils/secureStore";
 import { setStoredUser } from "../auth/authSlice";
 import { useDispatch } from "react-redux";
 
+import { useGetProfilQuery } from "../auth/authApi";
+
 const wait = (timeout) => {
 	return new Promise((resolve) => setTimeout(resolve, timeout));
 };
@@ -32,9 +34,11 @@ export default function HomeScreen({ navigation }) {
 	const dispatch = useDispatch();
 	const { data: categories, isLoading:loadCategorie, isFetching:fetchCategorie, refetch:refetchCategorie } = useGetCategoriesQuery();
 	const { data, refetch, isFetching, isLoading, error } = useGetEventsQuery();
+	const {data:profil, error:profilError} = useGetProfilQuery()
 	const [activeCategorie, setActiveCategorie] = useState("0");
 	console.log("error :", error);
 	console.log("data", data);
+	console.log('errror no token is no:', profilError)
 
 	const onRefresh = useCallback(async () => {
 		setRefreshing(true);

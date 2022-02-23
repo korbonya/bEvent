@@ -37,7 +37,7 @@ export default function BalanceScreen({navigation}) {
 	}, []);
 
 	useEffect(async () => {
-		if(error){
+		if(error && error.status == 401){
 		  await deleteUser()
 		  navigation.navigate('Login')
 		}

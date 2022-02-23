@@ -39,11 +39,11 @@ export default function TicketsScreen({ navigation }) {
   }, []);
 
   useEffect(async () => {
-    if(error){
-      await deleteUser()
-      navigation.navigate('Login')
-    }
-  },[error])
+		if(error && error.status == 401){
+		  await deleteUser()
+		  navigation.navigate('Login')
+		}
+	  },[error])
   
 
   console.log("tikets", tickets);
