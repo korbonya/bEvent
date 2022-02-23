@@ -14,12 +14,15 @@ import {
 	Spinner
 } from "native-base";
 import {RefreshControl} from 'react-native'
+import { useDispatch } from "react-redux";
+import { forceLogout } from "../auth/authSlice";
 
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useProvideBalanceMutation, useGetBalanceQuery } from "./balanceApi";
 import { deleteUser } from "../../common/utils/secureStore";
 
 export default function BalanceScreen({navigation}) {
+	const dispatch = useDispatch()
 	const { data, refetch, isLoading, error } = useGetBalanceQuery();
 	const [montant, setMontant] = useState('')
 	const [password, setPassword] = useState('')
@@ -39,7 +42,8 @@ export default function BalanceScreen({navigation}) {
 	useEffect(async () => {
 		if(error){
 		  await deleteUser()
-		  navigation.navigate('Login')
+		  dispatch(forceLogout())
+		  navigation.push('Login')
 		}
 	  },[error])
 

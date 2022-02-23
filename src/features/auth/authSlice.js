@@ -14,12 +14,14 @@ const authSlice = createSlice({
             state.isLoggedIn = true
             state.user = payload
             console.log('the state in action ', state)
-        }
+        },
+        forceLogout:(state) =>{
+            state.isLoggedIn = false
+            state.user = null
+        },
     },
     extraReducers:(builder) => {
         builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, {payload}) => {
-
-           
             state.isLoggedIn = true;
             state.user = payload;
             return state
@@ -32,6 +34,6 @@ const authSlice = createSlice({
     }
 })
 
-export const {setStoredUser} = authSlice.actions 
+export const {setStoredUser, forceLogout} = authSlice.actions 
 export default authSlice.reducer
 
