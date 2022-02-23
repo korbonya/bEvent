@@ -37,11 +37,11 @@ export default function BalanceScreen({navigation}) {
 	}, []);
 
 	useEffect(async () => {
-		if(error && error.status == 401){
+		if(error){
 		  await deleteUser()
 		  navigation.navigate('Login')
 		}
-	  })
+	  },[error])
 
 	console.log('the response', response)
 	console.log('le solde  ', data)

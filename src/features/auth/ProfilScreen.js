@@ -19,15 +19,7 @@ export default function ProfilScreen({navigation}) {
         await logout()
         await deleteUser()
     }
-  
-    useEffect(async () => {
-        if(error || logoutError){
-          await deleteUser()
-          navigation.navigate('Login')
-        }
-      },[error])
-      console.log('profil ', data)
-  
+    
     return (
       <>
         {isLoading?(<Box flex={1} justifyContent={'center'} alignItems={'center'} >

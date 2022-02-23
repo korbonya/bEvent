@@ -39,7 +39,7 @@ export default function TicketsScreen({ navigation }) {
   }, []);
 
   useEffect(async () => {
-		if(error && error.status == 401){
+		if(error){
 		  await deleteUser()
 		  navigation.navigate('Login')
 		}
