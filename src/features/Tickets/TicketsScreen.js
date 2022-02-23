@@ -43,7 +43,7 @@ export default function TicketsScreen({ navigation }) {
 		  await deleteUser()
 		  navigation.navigate('Login')
 		}
-	  },[error])
+	})
   
 
   console.log("tikets", tickets);

@@ -41,7 +41,7 @@ export default function BalanceScreen({navigation}) {
 		  await deleteUser()
 		  navigation.navigate('Login')
 		}
-	  },[error])
+	  })
 
 	console.log('the response', response)
 	console.log('le solde  ', data)

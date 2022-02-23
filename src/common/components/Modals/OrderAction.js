@@ -153,13 +153,14 @@ export default function OrderAction({
         )}
         name="password"
       />
-	  {errors.password && <Text> le mot de passe est obligatoire.</Text>}
+	  {errors.password && <Text color={'red.300'}> le mot de passe est obligatoire.</Text>}
+	  {error?.status == 500 && <Text color={'red.300'}>{error?.data?.error}</Text>}
 
 							<HStack mt={"10"}>
 								<Button
 									px='5'
 									isLoading={isLoading}
-									onPress={async () => await validateOrder()}
+									onPress={handleSubmit(validateOrder)}
 									px={"10"}
 								>
 									Valider

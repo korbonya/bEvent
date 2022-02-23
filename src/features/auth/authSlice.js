@@ -17,11 +17,11 @@ const authSlice = createSlice({
         }
     },
     extraReducers:(builder) => {
-        builder.addMatcher(authApi.endpoints.login.matchFulfilled,  (state, {payload}) => {
+        builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, {payload}) => {
+
+           
             state.isLoggedIn = true;
             state.user = payload;
-            console.log('the payload',payload)
-            console.log('the state in login slice:: ', state)
             return state
         })
         .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
