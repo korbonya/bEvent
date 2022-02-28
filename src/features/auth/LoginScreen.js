@@ -22,7 +22,7 @@ import { useLoginMutation } from "./authApi";
 import { useSelector } from "react-redux";
 import { saveUser } from "../../common/utils/secureStore";
 import { InputText, InputPass } from "../../common/components/Inputs/InputText";
-import bgImage from "../../../assets/images/bg1.png";
+import bgImage from "../../../assets/images/wave1.png";
 
 LogBox.ignoreLogs(["NativeBase:"]);
 
@@ -43,34 +43,36 @@ export default function LoginScreen({ navigation }) {
 			password: "",
 		},
 	});
-	// useEffect(async ()=>{
-	// 	if(isSuccess){
-	// 		console.log('suceess')
-	// 		await saveUser(data)
-	// 		navigation.navigate('Home')
-	// 	}else if(isError){
-	// 		console.log('the errror is ', isError)
-	// 		console.log('the error :', error)
-	// 	}
-	// })
+	useEffect(async ()=>{
+		if(isSuccess){
+			console.log('suceess')
+			await saveUser(data)
+			navigation.navigate('Home')
+		}else if(isError){
+			console.log('the errror is ', isError)
+			console.log('the error :', error)
+		}
+	},[isSuccess, isError])
 	const onSubmit = async (data) => {
 		console.log(data);
 		try {
 			await login(data)
 				.unwrap()
-				.then(async (response) => {
-					await saveUser(response);
-					navigation.navigate("Home");
-				});
+				// .then(async (response) => {
+				// 	await saveUser(response);
+				// 	navigation.navigate("Home");
+				// });
 		} catch (err) {
 			console.log(err);
 		}
 	};
 	return (
 		<Box flex={1}>
-				<Box>
-					<AspectRatio w='100%' ratio={16 / 9}>
+				<Box bgColor={'red.300'} borderWidth={'8'} borderColor={"green.200"} >
+					<AspectRatio w='100%' ratio={3 / 2}>
 						<Image
+						w={'100%'}
+						height="100%"
 							source={bgImage}
 							alt='image'
 						/>
