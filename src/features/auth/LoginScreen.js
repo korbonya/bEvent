@@ -8,8 +8,12 @@ import {
 	Button,
 	ScrollView,
 	Link,
-	Text
+	Text,
+	Center,
+	Image,
+	AspectRatio,
 } from "native-base";
+import { ImageBackground } from "react-native";
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useForm, Controller } from "react-hook-form";
 import { LogBox } from "react-native";
@@ -17,8 +21,8 @@ import { useLoginMutation } from "./authApi";
 // import { rootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import { saveUser } from "../../common/utils/secureStore";
-import {InputText, InputPass} from '../../common/components/Inputs/InputText'
-
+import { InputText, InputPass } from "../../common/components/Inputs/InputText";
+import bgImage from "../../../assets/images/bg1.png";
 
 LogBox.ignoreLogs(["NativeBase:"]);
 
@@ -26,10 +30,13 @@ export default function LoginScreen({ navigation }) {
 	const [show, setShow] = React.useState(false);
 	const { isLoggedIn } = useSelector((state) => state.auth);
 	const [
-		login, { data, isLoading, isError, isSuccess, error },
+		login,
+		{ data, isLoading, isError, isSuccess, error },
 	] = useLoginMutation();
 	const {
-		control, handleSubmit, formState: { errors },
+		control,
+		handleSubmit,
+		formState: { errors },
 	} = useForm({
 		defaultValues: {
 			telephone: "",
@@ -47,13 +54,13 @@ export default function LoginScreen({ navigation }) {
 	// 	}
 	// })
 	const onSubmit = async (data) => {
-		console.log(data)
+		console.log(data);
 		try {
 			await login(data)
 				.unwrap()
 				.then(async (response) => {
 					await saveUser(response);
-					navigation.navigate('Home');
+					navigation.navigate("Home");
 				});
 		} catch (err) {
 			console.log(err);
@@ -61,9 +68,62 @@ export default function LoginScreen({ navigation }) {
 	};
 	return (
 		<Box flex={1}>
+				<Box>
+					<AspectRatio w='100%' ratio={16 / 9}>
+						<Image
+							source={bgImage}
+							alt='image'
+						/>
+					</AspectRatio>
+					<Center
+						
+						_text={{
+							color: "gray.50",
+							fontWeight: "700",
+							fontSize: "xs",
+						}}
+						position='absolute'
+						bottom='0'
+						px='3'
+						py='1.5'
+					>
+						<Heading color={'white'}>Connexion</Heading>
+						<Heading
+							mt='1'
+							mb={"5"}
+							color='gray.50'
+							_dark={{
+								color: "warmGray.200",
+							}}
+							fontWeight='medium'
+							size='xs'
+						>
+							Connectez-vous et continuez!
+						</Heading>
+					</Center>
+				</Box>
 			{/* <AppBar2 navigation={navigation} title={"Compte"} /> */}
+			<Box
+				flex={1}
+				w='full'
+				px={"5"}
+				alignItems='center'
+				justifyContent={"center"}
+				p='2'
+				py='8'
+			>
 			
-				<Box flex={1} w="full" px={"5"} alignItems='center' justifyContent={'center'} p='2' py='8'>
+
+				{/* <ImageBackground 
+					source={bgImage}
+					style={{
+						flex: 1,
+						resizeMode: 'cover',
+						justifyContent: 'center',
+						width:"100%", 
+						height:"50%"
+					}}
+					> 
 					<Heading
 						_dark={{
 							color: "warmGray.50",
@@ -83,53 +143,65 @@ export default function LoginScreen({ navigation }) {
 					>
 						Connectez-vous et continuez!
 					</Heading>
-					<VStack w='full' space={3} mt='5'>
-						<Controller
-							control={control}
-							rules={{
-								required: true,
-							}}
-							render={({ field: { onChange, onBlur, value } }) => (
-								<FormControl>
-									<InputText 
-									label={'Numéro de Téléphone'}
+					</ImageBackground> */}
+				<VStack w='full' space={3} mt='5'>
+					<Controller
+						control={control}
+						rules={{
+							required: true,
+						}}
+						render={({ field: { onChange, onBlur, value } }) => (
+							<FormControl>
+								<InputText
+									label={"Numéro de Téléphone"}
 									onChangeText={onChange}
 									value={value}
-									/>
-									  {errors.telephone && <Text color={'red.300'}> Veillez saisir le numéro de téléphone.</Text>}
-								</FormControl>
-							)}
-							name='telephone' />
-						<Controller
-							control={control}
-							rules={{
-								required: true,
-							}}
-							render={({ field: { onChange, onBlur, value } }) => (
-								<FormControl>
-								
-									<InputPass 
-									label={'Mot de passe'}
+								/>
+								{errors.telephone && (
+									<Text color={"red.300"}>
+										{" "}
+										Veillez saisir le numéro de téléphone.
+									</Text>
+								)}
+							</FormControl>
+						)}
+						name='telephone'
+					/>
+					<Controller
+						control={control}
+						rules={{
+							required: true,
+						}}
+						render={({ field: { onChange, onBlur, value } }) => (
+							<FormControl>
+								<InputPass
+									label={"Mot de passe"}
 									onChangeText={onChange}
-										value={value}
-									/>
-									  {errors.password && <Text color={'red.300'}> le mot de passe est obligatoire.</Text>}
-									  {error && <Text color={'red.300'}> {error?.data?.error} </Text>}
-								</FormControl>
-							)}
-							name='password' />
-						<Button
-							isLoading={isLoading}
-							isLoadingText='Connexion'
-							onPress={handleSubmit(onSubmit)}
-							size={"lg"}
-							py='3'
-							mt='2'
-						    shadow={5}
-						>
-							Se Connecter
-						</Button>
-						{/* <Link
+									value={value}
+								/>
+								{errors.password && (
+									<Text color={"red.300"}>
+										{" "}
+										le mot de passe est obligatoire.
+									</Text>
+								)}
+								{error && <Text color={"red.300"}> {error?.data?.error} </Text>}
+							</FormControl>
+						)}
+						name='password'
+					/>
+					<Button
+						isLoading={isLoading}
+						isLoadingText='Connexion'
+						onPress={handleSubmit(onSubmit)}
+						size={"lg"}
+						py='3'
+						mt='2'
+						shadow={5}
+					>
+						Se Connecter
+					</Button>
+					{/* <Link
 							_text={{
 								fontSize: "lg",
 								fontWeight: "500",
@@ -140,9 +212,8 @@ export default function LoginScreen({ navigation }) {
 						>
 							Mot de passe Oublié?
 						</Link> */}
-					</VStack>
-				</Box>
-			
+				</VStack>
+			</Box>
 		</Box>
 	);
 }
