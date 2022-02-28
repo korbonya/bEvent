@@ -34,11 +34,7 @@ export default function HomeScreen({ navigation }) {
 	const dispatch = useDispatch();
 	const { data: categories, isLoading:loadCategorie, isFetching:fetchCategorie, refetch:refetchCategorie } = useGetCategoriesQuery();
 	const { data, refetch, isFetching, isLoading, error } = useGetEventsQuery();
-	const {data:profil, error:profilError} = useGetProfilQuery()
 	const [activeCategorie, setActiveCategorie] = useState("0");
-	console.log("error :", error);
-	console.log("data", data);
-	console.log('errror no token is no:', profilError)
 
 	const onRefresh = useCallback(async () => {
 		setRefreshing(true);

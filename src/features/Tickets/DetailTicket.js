@@ -24,9 +24,9 @@ export default function DetailTicket({route, navigation}) {
 		<Box>
 			<AppBar2 title="Ticket" navigation={navigation}/>
             <Box p='2' pb={'5'} shadow={'9'} rounded={'3xl'} mt={'-35px'} bgColor='coolGray.50' mx='5'>
-            <Box my='2' borderRadius='md'>
+            <Box my='5' borderRadius='md'>
 				<Pressable onPress={() => console.log("You touched me")}>
-					<Box pl='4' pr='5' py='2'>
+					<Box pl='4' pr='5' py='5'>
 						<HStack alignItems='center' space={3}>
 							{/* <Avatar size="48px" source={{ uri: item.avatarUrl }} /> */}
 							<VStack>
@@ -63,8 +63,8 @@ export default function DetailTicket({route, navigation}) {
 
 			<Box mt={'8'} width={"full"}>
 				<Heading pl={'5'} mb={'5'} fontSize='md'>QRcode</Heading>
-				<Box justifyContent={'space-between'} alignItems={'center'}>
-                    <QRCode size={300} value={data.identifiant} />
+				<Box my={'5'} justifyContent={'space-between'} alignItems={'center'}>
+                    <QRCode size={200} value={data.identifiant} />
                 </Box>
 			</Box>
             </Box>
@@ -96,7 +96,7 @@ export default function DetailTicket({route, navigation}) {
 						<Icon ml='8' as={Ionicons} name='cloud-upload-outline' size='sm' />
 					}
 				>
-					inviter un ami
+					Télécharger
 				</Button>
 			</Box>
 		</Box>

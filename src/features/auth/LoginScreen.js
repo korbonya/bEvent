@@ -48,12 +48,13 @@ export default function LoginScreen({ navigation }) {
 		if(isSuccess){
 			console.log('suceess')
 			await saveUser(data)
-			navigation.navigate('Home')
+			navigation.push('Home')
 		}else if(isError){
 			console.log('the errror is ', isError)
 			console.log('the error :', error)
 		}
 	},[isSuccess, isError])
+
 	const onSubmit = async (data) => {
 		console.log(data);
 		try {

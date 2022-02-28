@@ -6,12 +6,15 @@ import {
 	FormControl,
 	Button,
 	ScrollView,
+	Image,
+	AspectRatio
 } from "native-base";
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useForm, Controller } from "react-hook-form";
 import { LogBox } from "react-native";
 import {useSignUpMutation} from './authApi'
 import {InputText, InputPass} from '../../common/components/Inputs/InputText'
+import bgImage from "../../../assets/images/bg2.png";
 
 
 LogBox.ignoreLogs(['NativeBase:']);
@@ -41,7 +44,6 @@ export default function SignupScreen({ navigation }) {
 		}
 	}, [isError, isSuccess]);
 
-	console.log('the response ', response);
 
 	const onSubmit = async (data) => {
 		await signup(data);
@@ -50,13 +52,33 @@ export default function SignupScreen({ navigation }) {
 		<>
 			{/* <AppBar2 navigation={navigation} title={"Compte"} /> */}
 			<ScrollView>
-				<Box px={"5"} p='2' py='8'>
-					<Heading pt={'20'}>
+			<Box mt={"-120px"}> 
+					<AspectRatio w='100%' ratio={1/1}>
+						<Image
+						w={'100%'}
+						height="100%"
+							source={bgImage}
+							alt='image'
+						/>
+					</AspectRatio>
+					<Box
+						
+						_text={{
+							color: "gray.50",
+							fontWeight: "700",
+							fontSize: "xs",
+						}}
+						position='absolute'
+						bottom='32'
+						px='3'
+						py='1.5'
+					>
+						<Heading color={'gray.50'} pt={'20'}>
 						Inscription
 					</Heading>
 					<Heading
 						mt='1'
-						color='coolGray.600'
+						color='gray.50'
 						_dark={{
 							color: "warmGray.200",
 						}}
@@ -65,7 +87,11 @@ export default function SignupScreen({ navigation }) {
 					>
 						Inscrivez-vous et continuez!
 					</Heading>
-					<VStack space={3} mt='5'>
+					</Box>
+				</Box>
+				<Box px={"5"} p='2' py='8'>
+					
+					<VStack space={3} mt='-50px'>
 						<Controller
 							control={control}
 							rules={{
