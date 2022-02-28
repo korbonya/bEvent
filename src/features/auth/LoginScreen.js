@@ -12,6 +12,7 @@ import {
 	Center,
 	Image,
 	AspectRatio,
+	KeyboardAvoidingView
 } from "native-base";
 import { ImageBackground } from "react-native";
 import AppBar2 from "../../common/components/headers/AppBar2";
@@ -22,7 +23,7 @@ import { useLoginMutation } from "./authApi";
 import { useSelector } from "react-redux";
 import { saveUser } from "../../common/utils/secureStore";
 import { InputText, InputPass } from "../../common/components/Inputs/InputText";
-import bgImage from "../../../assets/images/wave1.png";
+import bgImage from "../../../assets/images/bg2.png";
 
 LogBox.ignoreLogs(["NativeBase:"]);
 
@@ -67,9 +68,10 @@ export default function LoginScreen({ navigation }) {
 		}
 	};
 	return (
-		<Box flex={1}>
-				<Box bgColor={'red.300'} borderWidth={'8'} borderColor={"green.200"} >
-					<AspectRatio w='100%' ratio={3 / 2}>
+		<ScrollView>
+				<Box safeArea={false} flex={1}>
+				<Box mt={"-80px"}> 
+					<AspectRatio w='100%' ratio={1/1}>
 						<Image
 						w={'100%'}
 						height="100%"
@@ -77,7 +79,7 @@ export default function LoginScreen({ navigation }) {
 							alt='image'
 						/>
 					</AspectRatio>
-					<Center
+					<Box
 						
 						_text={{
 							color: "gray.50",
@@ -85,11 +87,11 @@ export default function LoginScreen({ navigation }) {
 							fontSize: "xs",
 						}}
 						position='absolute'
-						bottom='0'
+						bottom='32'
 						px='3'
 						py='1.5'
 					>
-						<Heading color={'white'}>Connexion</Heading>
+						<Heading size={'2xl'} color={'white'}>Connexion</Heading>
 						<Heading
 							mt='1'
 							mb={"5"}
@@ -98,56 +100,25 @@ export default function LoginScreen({ navigation }) {
 								color: "warmGray.200",
 							}}
 							fontWeight='medium'
-							size='xs'
+							size='md'
 						>
 							Connectez-vous et continuez!
 						</Heading>
-					</Center>
+					</Box>
 				</Box>
 			{/* <AppBar2 navigation={navigation} title={"Compte"} /> */}
 			<Box
 				flex={1}
 				w='full'
 				px={"5"}
-				alignItems='center'
-				justifyContent={"center"}
+			
 				p='2'
 				py='8'
 			>
 			
 
-				{/* <ImageBackground 
-					source={bgImage}
-					style={{
-						flex: 1,
-						resizeMode: 'cover',
-						justifyContent: 'center',
-						width:"100%", 
-						height:"50%"
-					}}
-					> 
-					<Heading
-						_dark={{
-							color: "warmGray.50",
-						}}
-					>
-						Connexion
-					</Heading>
-					<Heading
-						mt='1'
-						mb={'5'}
-						color='coolGray.600'
-						_dark={{
-							color: "warmGray.200",
-						}}
-						fontWeight='medium'
-						size='xs'
-					>
-						Connectez-vous et continuez!
-					</Heading>
-					</ImageBackground> */}
-				<VStack w='full' space={3} mt='5'>
-					<Controller
+				<VStack w='full' mt={'-20px'} space={3}>
+				<Controller
 						control={control}
 						rules={{
 							required: true,
@@ -192,18 +163,7 @@ export default function LoginScreen({ navigation }) {
 						)}
 						name='password'
 					/>
-					<Button
-						isLoading={isLoading}
-						isLoadingText='Connexion'
-						onPress={handleSubmit(onSubmit)}
-						size={"lg"}
-						py='3'
-						mt='2'
-						shadow={5}
-					>
-						Se Connecter
-					</Button>
-					{/* <Link
+					<Link
 							_text={{
 								fontSize: "lg",
 								fontWeight: "500",
@@ -213,9 +173,22 @@ export default function LoginScreen({ navigation }) {
 							mt='1'
 						>
 							Mot de passe Oublié?
-						</Link> */}
+						</Link>
+					<Button
+						isLoading={isLoading}
+						isLoadingText='Connexion'
+						onPress={handleSubmit(onSubmit)}
+						size={"lg"}
+						py='3'
+						mt='1'
+						shadow={"2"}
+					>
+						Se Connecter
+					</Button>
+
 				</VStack>
 			</Box>
 		</Box>
+		</ScrollView>
 	);
 }
