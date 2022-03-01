@@ -44,6 +44,8 @@ export default function BalanceScreen({navigation}) {
 		  await deleteUser()
 		  dispatch(forceLogout())
 		  navigation.push('Login')
+		}else if (response){
+			navigation.push('webview', {url:response.pay_token})
 		}
 	  },[error])
 
@@ -74,7 +76,7 @@ export default function BalanceScreen({navigation}) {
 				</Box>
 				<Box px='5'>
 					<Heading pb={"5"}>Liste des Transactions</Heading>
-					{data?.recharges?.map((rech) => (
+					{data?.recharges?.map((rech, i) => (
 						<Box
 							key={i}
 							borderBottomWidth='1'
@@ -146,7 +148,7 @@ export default function BalanceScreen({navigation}) {
 						<Actionsheet.Item justifyContent={'center'}>
 							<Input placeholder="Mot de passe" variant={'outline'} w={'80'}  value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
 						</Actionsheet.Item>
-						<Button px={'10'} onPress={() => }>Valider</Button>
+						<Button px={'10'} onPress={async () => provideBalance({montant, password})}>Valider</Button>
 					</Actionsheet.Content>
 				</Actionsheet>
 			</Box>}

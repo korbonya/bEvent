@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }) {
 		if(isSuccess){
 			console.log('suceess')
 			await saveUser(data)
-			navigation.push('Home')
+			navigation.navigate('Home')
 		}else if(isError){
 			console.log('the errror is ', isError)
 			console.log('the error :', error)
