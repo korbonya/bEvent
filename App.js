@@ -8,6 +8,7 @@ import DetailEventScreen from "./src/features/Events/DetailEventScreen";
 import TicketsScreen from "./src/features/Tickets/TicketsScreen";
 import DetailTicket from "./src/features/Tickets/DetailTicket";
 import BalanceScreen from "./src/features/Solde/BalanceScreen";
+import WebView from './src/features/Solde/WebView'
 import ProfilScreen from "./src/features/auth/ProfilScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import  SignupScreen  from "./src/features/auth/SignupScreen";
@@ -102,6 +103,7 @@ export default function App() {
       <Stack.Screen name='Tickets' component={TicketsScreen} />
       <Stack.Screen name='Balance' component={BalanceScreen} />
       <Stack.Screen name="Validate" component={ValidationScreen} />
+      <Stack.Screen name="webview" component={WebView} />
     </Stack.Navigator>
 
 			</NavigationContainer>

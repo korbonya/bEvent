@@ -146,7 +146,7 @@ export default function BalanceScreen({navigation}) {
 						<Actionsheet.Item justifyContent={'center'}>
 							<Input placeholder="Mot de passe" variant={'outline'} w={'80'}  value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
 						</Actionsheet.Item>
-						<Button px={'10'} onPress={async() => await provideBalance({montant, password})}>Valider</Button>
+						<Button px={'10'} onPress={() => }>Valider</Button>
 					</Actionsheet.Content>
 				</Actionsheet>
 			</Box>}
