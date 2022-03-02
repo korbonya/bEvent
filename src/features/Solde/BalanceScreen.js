@@ -43,11 +43,11 @@ export default function BalanceScreen({navigation}) {
 		if(error){
 		  await deleteUser()
 		  dispatch(forceLogout())
-		  navigation.push('Login')
+		//   navigation.push('Login')
 		}else if (response){
 			navigation.push('webview', {url:response.pay_token})
 		}
-	  },[error])
+	  },[error, response])
 
 	console.log('the response', response)
 	console.log('le solde  ', data)
@@ -76,7 +76,7 @@ export default function BalanceScreen({navigation}) {
 				</Box>
 				<Box px='5'>
 					<Heading pb={"5"}>Liste des Transactions</Heading>
-					{data?.recharges?.map((rech, i) => (
+					{data?.recharges?.map((data, i) => (
 						<Box
 							key={i}
 							borderBottomWidth='1'
@@ -139,16 +139,16 @@ export default function BalanceScreen({navigation}) {
 									color: "gray.300",
 								}}
 							>
-								Réchargez votre compte
+								Récharger mon compte
 							</Text>
 						</Box>
 						<Actionsheet.Item w={'full'} justifyContent={'center'} >
-							<Input placeholder="Montant" variant={'outline'} w={'80'} value={montant} onChangeText={(val) => setMontant(val)} placeholder="Numéro de téléphone"/>
+							<Input placeholder="Montant" keyboardType="numeric" size={'lg'}  variant={'filled'} w={'80'} value={montant} onChangeText={(val) => setMontant(val)} placeholder="Montant de la recharge"/>
 						</Actionsheet.Item>
 						<Actionsheet.Item justifyContent={'center'}>
-							<Input placeholder="Mot de passe" variant={'outline'} w={'80'}  value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
+							<Input placeholder="Mot de passe" type="password" size={'lg'} variant={'filled'} w={'80'}  value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
 						</Actionsheet.Item>
-						<Button px={'10'} onPress={async () => provideBalance({montant, password})}>Valider</Button>
+						<Button  isLoading={loadProvide} disabled={loadProvide||montant===""||password===''} px={'10'} onPress={async () => provideBalance({montant, password})}>Valider</Button>
 					</Actionsheet.Content>
 				</Actionsheet>
 			</Box>}

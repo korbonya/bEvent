@@ -3,7 +3,7 @@ import {Box, Center, Heading,Spinner, ScrollView, Text, Avatar, Button } from 'n
 import {RefreshControl} from 'react-native'
 import { useGetProfilQuery, useLogoutMutation } from './authApi'
 import { deleteUser } from '../../common/utils/secureStore'
-
+import { forceLogout } from './authSlice'
 export default function ProfilScreen({navigation}) {
     const [logout, {data:response, isSuccess:successLogout, error:logoutError, isLoading:loadLogout}] = useLogoutMutation()
     const {data, isSuccess, refetch, isLoading,error , isError} = useGetProfilQuery()
@@ -15,6 +15,13 @@ export default function ProfilScreen({navigation}) {
 		setRefreshing(false);
 	}, []);
 
+    useEffect(async ()=> {
+      if(error){
+        await deleteUser()
+        dispatch(forceLogout())
+      //   navigation.push('Login')
+      }
+    },[])
     const handleLogout = async () => {
         await logout()
         await deleteUser()
