@@ -44,26 +44,26 @@ export default function LoginScreen({ navigation }) {
 			password: "",
 		},
 	});
-	useEffect(async ()=>{
-		if(isSuccess){
-			console.log('suceess')
-			await saveUser(data)
-			navigation.navigate('Home')
-		}else if(isError){
-			console.log('the errror is ', isError)
-			console.log('the error :', error)
-		}
-	},[isSuccess, isError])
+	// useEffect(async ()=>{
+	// 	if(isSuccess){
+	// 		console.log('suceess')
+	// 		await saveUser(data)
+	// 		navigation.navigate('Home')
+	// 	}else if(isError){
+	// 		console.log('the errror is ', isError)
+	// 		console.log('the error :', error)
+	// 	}
+	// },[isSuccess, isError])
 
 	const onSubmit = async (data) => {
 		console.log(data);
 		try {
 			await login(data)
 				.unwrap()
-				// .then(async (response) => {
-				// 	await saveUser(response);
-				// 	navigation.navigate("Home");
-				// });
+				.then(async (response) => {
+					await saveUser(response);
+					navigation.navigate("Home");
+				});
 		} catch (err) {
 			console.log(err);
 		}

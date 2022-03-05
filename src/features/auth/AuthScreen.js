@@ -15,8 +15,8 @@ export default function AuthScreen({navigation}) {
             </Heading>
             <Text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore minus ipsum quos quae nesciunt</Text>
             </Box>
-            <Button onPress={() => navigation.push('Login')} my={'2'} w={'full'}>Se Connecter</Button>
-            <Button onPress={() => navigation.push('Signup')} w={'full'} variant={'outline'}>Créer un compte</Button>
+            <Button onPress={() => navigation.navigate('Login')} my={'2'} w={'full'}>Se Connecter</Button>
+            <Button onPress={() => navigation.navigate('Signup')} w={'full'} variant={'outline'}>Créer un compte</Button>
         </Box> 
     )
 }

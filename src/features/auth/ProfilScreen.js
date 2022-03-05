@@ -21,7 +21,7 @@ export default function ProfilScreen({navigation}) {
         dispatch(forceLogout())
       //   navigation.push('Login')
       }
-    },[])
+    },[error])
     const handleLogout = async () => {
         await logout()
         await deleteUser()

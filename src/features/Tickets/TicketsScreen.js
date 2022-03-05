@@ -38,12 +38,13 @@ export default function TicketsScreen({ navigation }) {
     setRefreshing(false);
   }, []);
 
-  useEffect(async () => {
-		if(error){
-		  await deleteUser()
-		  navigation.navigate('Login')
-		}
-	})
+  useEffect(async ()=> {
+    if(error){
+      await deleteUser()
+      dispatch(forceLogout())
+    //   navigation.push('Login')
+    }
+  },[error])
   
 
   console.log("tikets", tickets);
