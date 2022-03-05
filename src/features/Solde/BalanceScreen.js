@@ -11,9 +11,12 @@ import {
 	Actionsheet,
 	useDisclose,
 	Button,
-	Spinner
+	Spinner,
+	Icon
 } from "native-base";
 import {RefreshControl} from 'react-native'
+import { Ionicons } from '@expo/vector-icons'; 
+
 import { useDispatch } from "react-redux";
 import { forceLogout } from "../auth/authSlice";
 
@@ -63,30 +66,34 @@ export default function BalanceScreen({navigation}) {
     <Spinner accessibilityLabel="Chargement" /> </Box>:<Box flex={1}>
 				<Box
 					mx={"5"}
-					my={"10"}
+					mb={"10"}
 					px={"10"}
-					py={"2"}
-					rounded={"xl"}
-					bgColor={"blue.100"}
+					py={"4"}
+					shadow='2'
+					rounded={"2xl"}
+					bgColor={"primary.100"}
 				>
-					<Heading fontWeight={"semibold"}>Votre Solde</Heading>
-					<Text bold pt={"10"} fontSize={"xl"}>
+					<Heading fontSize={'md'} fontWeight={"semibold"}>Votre Solde</Heading>
+					<Text bold pt={"2"} fontSize={"xl"}>
 						{data ? data.solde + " GNF" : "..."}
 					</Text>
+					<Button borderRadius={'lg'} leftIcon={<Ionicons name="add" size={24} color="white" />} mt={'5'} mx={'5'} bgColor={'primary.300'} variant="solid" onPress={onOpen}>Rechargez votre compte</Button>
+
 				</Box>
 				<Box px='5'>
-					<Heading pb={"5"}>Liste des Transactions</Heading>
+					<Heading fontSize={'lg'} pb={"5"}>Liste des Transactions</Heading>
 					{data?.recharges?.map((data, i) => (
 						<Box
 							key={i}
-							borderBottomWidth='1'
+							bgColor={'coolGray.100'}
+							my='1'
 							_dark={{
 								borderColor: "gray.600",
 							}}
-							borderColor='coolGray.200'
 							pl='4'
 							pr='5'
 							py='5'
+							borderRadius={'xl'}
 						>
 							<HStack space={3} justifyContent='space-between'>
 								<VStack>
@@ -109,7 +116,25 @@ export default function BalanceScreen({navigation}) {
 									</Text>
 								</VStack>
 								<Spacer />
-								<Text
+								{data.statuts == -1 ?<Text
+									fontSize='xs'
+									_dark={{
+										color: "warmGray.50",
+									}}
+									color='red.600'
+									alignSelf='flex-start'
+								>
+									annulée
+								</Text>:data.statuts === 0 ?<Text
+									fontSize='xs'
+									_dark={{
+										color: "warmGray.50",
+									}}
+									color='gray.600'
+									alignSelf='flex-start'
+								>
+									En attente
+								</Text>:<Text
 									fontSize='xs'
 									_dark={{
 										color: "warmGray.50",
@@ -117,8 +142,10 @@ export default function BalanceScreen({navigation}) {
 									color='green.600'
 									alignSelf='flex-start'
 								>
-									effectué
+									succès
 								</Text>
+
+								}
 							</HStack>
 						</Box>
 					))}
@@ -128,7 +155,6 @@ export default function BalanceScreen({navigation}) {
 						<Text fontSize={'lg'} textAlign={'center'}>Aucune Transactions</Text>
 					</Box>
 				)}
-				<Button mt={'10'} mx={'5'} onPress={onOpen}>Rechargez votre compte</Button>
 				<Actionsheet isOpen={isOpen} onClose={onClose}>
 					<Actionsheet.Content>
 						<Box w='100%' h={60} px={4} alignItems={'center'} justifyContent='center'>

@@ -7,10 +7,13 @@ import {
 	Heading,
 	Box,
 	HStack,
-	Input,
+	StatusBar,
+	IconButton,
 	Icon,
 	Button,
 	Text,
+	Image,
+	AspectRatio
 } from "native-base";
 import { RefreshControl } from "react-native";
 import ListTopEvents from "../../common/components/Lists/ListTopEvents";
@@ -21,8 +24,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { getUser } from "../../common/utils/secureStore";
 import { setStoredUser } from "../auth/authSlice";
 import { useDispatch } from "react-redux";
-
-import { useGetProfilQuery } from "../auth/authApi";
+import { SliderBox } from "react-native-image-slider-box";
+import logo from '../../../assets/images/logo.png'
 
 const wait = (timeout) => {
 	return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -30,7 +33,12 @@ const wait = (timeout) => {
 
 export default function HomeScreen({ navigation }) {
 	const [refreshing, setRefreshing] = React.useState(false);
-
+	const images = [
+		"https://source.unsplash.com/1024x768/?nature",
+        "https://source.unsplash.com/1024x768/?water",
+        "https://source.unsplash.com/1024x768/?girl",
+        "https://source.unsplash.com/1024x768/?tree",
+	]
 	const dispatch = useDispatch();
 	const { data: categories, isLoading:loadCategorie, isFetching:fetchCategorie, refetch:refetchCategorie } = useGetCategoriesQuery();
 	const { data, refetch, isFetching, isLoading, error } = useGetEventsQuery();
@@ -71,14 +79,39 @@ export default function HomeScreen({ navigation }) {
 					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 				}
 				showsVerticalScrollIndicator={false}
-				stickyHeaderIndices={[0]}
+				stickyHeaderIndices={[2]}
 				_contentContainerStyle={{
 					mb: "12",
 					minW: "72",
 				}}
 				px='2'
 			>
+
+<>
+        <StatusBar backgroundColor="#002159" barStyle="light-content" />
+
+        <Box safeAreaTop />
+
+        <HStack bg='primary.50' px="1" py="3" justifyContent='space-between' alignItems='center'>
+          <HStack space="10" alignItems='center'>
+            <IconButton icon={<Icon size="sm" as={<MaterialIcons name='menu' />} color="black" />} />
+            {/* <Text color="white" fontSize="20" fontWeight='bold'>B-Event</Text> */}
+          </HStack>
+		  <AspectRatio mt={'-30px'} w={'10'} h='12' >
+		  <Image source={logo}  w={'16'} h='16'/>
+		  </AspectRatio>
+          <HStack space="2">
+            {/* <IconButton icon={<Icon as={<MaterialIcons name='favorite' />} size='sm' color="white" />} /> */}
+            <IconButton icon={<Icon as={<MaterialIcons name='search' />}
+            color="black" size='sm'  />} />
+            {/* <IconButton icon={<Icon as={<MaterialIcons name='notifications' />} size='sm' color="white" />} /> */}
+          </HStack>
+        </HStack>
+
+    </>
 				{/* <AppBar /> */}
+				<SliderBox autoplay={true} images={images} />
+
 				<VStack
 					mx={"2"}
 					bg={"gray.100"}
@@ -87,23 +120,6 @@ export default function HomeScreen({ navigation }) {
 					space={2}
 					alignSelf='center'
 				>
-					<Input
-						placeholder='Trouver un évenement'
-						width='100%'
-						borderRadius='4'
-						py='3'
-						px='1'
-						fontSize='14'
-						InputLeftElement={
-							<Icon
-								m='2'
-								ml='3'
-								size='6'
-								color='gray.400'
-								as={<MaterialIcons name='search' />}
-							/>
-						}
-					/>
 					<HStack>
 						<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 							<Button
@@ -148,6 +164,7 @@ export default function HomeScreen({ navigation }) {
 						</ScrollView>
 					</HStack>
 				</VStack>
+
 				{!activeCategorie || activeCategorie === "0" ? 
 					!isFetching && !isLoading && !loadCategorie && !fetchCategorie && data?(	<Box>
 						<ListTopEvents data={data} navigation={navigation} />
@@ -187,7 +204,6 @@ const LoadEventH = () => {
 			<VStack
 				w='90%'
 				maxW='400'
-				borderWidth='1'
 				space={8}
 				rounded='md'
 				_dark={{
@@ -203,7 +219,6 @@ const LoadEventH = () => {
 					<VStack
 						w='60%'
 						maxW='400'
-						borderWidth='1'
 						space={8}
 						overflow='hidden'
 						mr={'2'}
@@ -243,7 +258,6 @@ const LoadEventH = () => {
 				<VStack
 						w='98%'
 						maxW='400'
-						borderWidth='1'
 						space={8}
 						overflow='hidden'
 						my={'5'}
@@ -262,7 +276,6 @@ const LoadEventH = () => {
 				<HStack
 				w='90%'
 				maxW='400'
-				borderWidth='1'
 				space={8}
 				rounded='md'
 				_dark={{
@@ -287,7 +300,6 @@ const LoadEventH = () => {
 			<HStack
 				w='90%'
 				maxW='400'
-				borderWidth='1'
 				space={8}
 				rounded='md'
 				_dark={{
