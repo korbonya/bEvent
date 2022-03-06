@@ -180,7 +180,7 @@ export default function ProfilScreen({ navigation }) {
 					<Box
 						mt={"20"}
 						flex={1}
-					
+          
 						borderTopWidth={"1"}
 						pt='5'
 						w={"full"}
@@ -188,17 +188,21 @@ export default function ProfilScreen({ navigation }) {
 						borderColor={"gray.300"}
 					>
 			
-						<Fab
-            label={'Se déconnecter'}
-              mb={'16'}
-              shadow={'0'}
-              w={'full'}
-              mx={'5'}
+						<Button
 							onPress={handleLogout}
-							variant={"solid"}
+							variant={"outline"}
+              borderWidth={'2'}
+              mx='5'
+              size={'lg'}
+              borderRadius={'lg'}
+              borderColor={'red.600'}
+              _text={{
+                fontWeight:'bold'
+              }}
 							colorScheme='danger'
-						/>
-						
+						>
+							Se déconnecter
+						</Button>
 					</Box>
 				</ScrollView>
 			)}
