@@ -8,8 +8,10 @@ import {
 	Pressable,
 	Heading,
 	Container,
+	Icon
 } from "native-base";
 import { dformat } from "../../utils/dFormat";
+import {MaterialIcons} from '@expo/vector-icons'
 
 export default function AutherEvents({ data, navigation, filter = "" }) {
 	console.log(filter == "CONCERT");
@@ -30,20 +32,21 @@ export default function AutherEvents({ data, navigation, filter = "" }) {
 							bgColor='coolGray.50'
 							my='2'
 							mx='2'
-							shadow='3'
+							borderRadius={'2xl'}
 						>
 							<Pressable
 								onPress={() => navigation.push("DetailEvent", { id: item.id })}
 							>
 								<HStack justifyContent='flex-start'>
 									<Image
-										size='120px'
+										size='130px'
+										borderRadius={'xl'}
 										source={{
 											uri: `https://bevent-admin.elitegroupe.net/storage/${item.image}`,
 										}}
 										alt={item.titre}
 									/>
-									<VStack  w={'full'}>
+									<VStack justifyContent={'center'} w={'full'}>
 										<Container px={'3'}>
 											<Text
 												mt={"1"}
@@ -65,53 +68,54 @@ export default function AutherEvents({ data, navigation, filter = "" }) {
                                                 noOfLines={1}
 
                                                 isTruncated
-												fontSize={"md"}
+												fontSize={"sm"}
 											>
 												{item.titre}
 											</Text>
-                                            <Text
+											<Box mt={'3'} bgColor={'orange.100'}>
+											<Text
 												_dark={{
 													color: "warmGray.50",
 												}}
 												color='coolGray.800'
-												mt={'1'}
-                                                noOfLines={1}
-
-                                                isTruncated
-												fontSize={"sm"}
-											>
-												{item.organisateur}
-											</Text>
-                                            <Text
-												_dark={{
-													color: "warmGray.50",
-												}}
-												color='gray.600'
+												
                                                 noOfLines={1}
                                                 isTruncated
 												fontSize={"xs"}
 											>
-												{item.ville +" , " + item.lieu}
+												{item.organisateur}
 											</Text>
+											</Box>
+                                            <HStack alignItems={'center'}  py={'1'}>
+												<Icon mr={'2'} as={MaterialIcons} color={'coolGray.500'} name="place" size={'xs'} />
+												<Text fontSize={'xs'} isTruncated w={'90%'}>{`${item.ville} / ${item.lieu}`}</Text>
+											</HStack>
 										</Container>
 									</VStack>
 								</HStack>
 							</Pressable>
 						</Box>
 					) : item.type == filter ? (
-						<Box key={'other'+item.id} bgColor='coolGray.50' my='2' mx='2' shadow='3'>
-								<Pressable
+						<Box
+							key={"others" + item.id}
+							bgColor='coolGray.50'
+							my='2'
+							mx='2'
+							borderRadius={'2xl'}
+						>
+							<Pressable
 								onPress={() => navigation.push("DetailEvent", { id: item.id })}
 							>
 								<HStack justifyContent='flex-start'>
 									<Image
-										size='120px'
+										size='130px'
+										borderRadius={'xl'}
 										source={{
 											uri: `https://bevent-admin.elitegroupe.net/storage/${item.image}`,
 										}}
 										alt={item.titre}
 									/>
-									<VStack  w={'full'}>
+									<VStack justifyContent={'center'} w={'full'}>
 										<Container px={'3'}>
 											<Text
 												mt={"1"}
@@ -133,34 +137,28 @@ export default function AutherEvents({ data, navigation, filter = "" }) {
                                                 noOfLines={1}
 
                                                 isTruncated
-												fontSize={"md"}
+												fontSize={"sm"}
 											>
 												{item.titre}
 											</Text>
-                                            <Text
+											<Box mt={'3'} bgColor={'orange.100'}>
+											<Text
 												_dark={{
 													color: "warmGray.50",
 												}}
 												color='coolGray.800'
-												mt={'1'}
-                                                noOfLines={1}
-
-                                                isTruncated
-												fontSize={"sm"}
-											>
-												{item.organisateur}
-											</Text>
-                                            <Text
-												_dark={{
-													color: "warmGray.50",
-												}}
-												color='gray.600'
+												
                                                 noOfLines={1}
                                                 isTruncated
 												fontSize={"xs"}
 											>
-												{item.ville +" , " + item.lieu}
+												{item.organisateur}
 											</Text>
+											</Box>
+                                            <HStack alignItems={'center'}  py={'1'}>
+												<Icon mr={'2'} as={MaterialIcons} color={'coolGray.500'} name="place" size={'xs'} />
+												<Text fontSize={'xs'} isTruncated w={'90%'}>{`${item.ville} / ${item.lieu}`}</Text>
+											</HStack>
 										</Container>
 									</VStack>
 								</HStack>

@@ -17,13 +17,14 @@ import LoginScreen from "./src/features/auth/LoginScreen";
 import AuthScreen from "./src/features/auth/AuthScreen";
 import { store } from "./src/app/store";
 import { Provider, useSelector } from "react-redux";
-
+import * as SystemUI from 'expo-system-ui';
 import { theme } from "./src/app/theme";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function HomeTabs() {
+  SystemUI.setBackgroundColorAsync("red");
 	const { isLoggedIn } = useSelector((state) => state.auth);
 	console.log("the user is ", isLoggedIn);
 	return (
@@ -35,6 +36,9 @@ function HomeTabs() {
 					backgroundColor: "#e6eafe",
 					height: 75,
 					paddingBottom: 5,
+          paddingTop:5,
+          borderTopStartRadius:20,
+          borderTopEndRadius:20
 				},
 				tabBarLabelStyle: {
 					fontSize: 16,

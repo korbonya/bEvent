@@ -123,6 +123,7 @@ export default function HomeScreen({ navigation }) {
 					bgColor={'gray.100'}
 					space={2}
 					alignSelf='center'
+
 				>
 					<HStack>
 						<ScrollView horizontal showsHorizontalScrollIndicator={false}>

@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ff0"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -30,4 +30,5 @@
       "favicon": "./assets/favicon.png"
     }
   }
+  
 }
