@@ -32,7 +32,8 @@ export default function Tickets({ticketId, setTicketId, data}) {
 					<Box
 						borderWidth='2'
 						width={'40'}
-                        p='5'
+						py='3'
+						borderRadius={'md'}
 						borderColor={active==item.id?'primary.500':'gray.200'}
                         mx='2'
 						bgColor={active==item.id?'transparent':'gray.200'}
@@ -44,7 +45,7 @@ export default function Tickets({ticketId, setTicketId, data}) {
 					<VStack space={3} justifyContent='center' alignItems={'center'}>
 							
 							<Text
-								fontSize='xl'
+								fontSize='lg'
 								color='coolGray.800'
 								bold
 							>

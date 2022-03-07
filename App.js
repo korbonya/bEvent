@@ -18,12 +18,14 @@ import AuthScreen from "./src/features/auth/AuthScreen";
 import { store } from "./src/app/store";
 import { Provider, useSelector } from "react-redux";
 import * as SystemUI from 'expo-system-ui';
+import * as NavigationBar from 'expo-navigation-bar';
 import { theme } from "./src/app/theme";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function HomeTabs() {
+  
   SystemUI.setBackgroundColorAsync("red");
 	const { isLoggedIn } = useSelector((state) => state.auth);
 	console.log("the user is ", isLoggedIn);
@@ -99,7 +101,8 @@ function HomeTabs() {
 export default function App() {
 	//   const user = useSelector(selectedUser)
 	// const loggedIn = useSelector(isLoggedIn)
-
+  NavigationBar.setBackgroundColorAsync("#e6eafe");
+  NavigationBar.setButtonStyleAsync("dark")
 	// console.log('it is the islgged :::', user)
 
 	const config = {
