@@ -7,9 +7,12 @@ import {
 	Text,
 	Pressable,
 	AspectRatio,
-    Image
+    Image, 
+	Icon,
+	HStack
 } from "native-base";
 import { dformat } from "../../utils/dFormat";
+import {MaterialIcons} from '@expo/vector-icons'
 
 export default function ListTopEvents({data, navigation}) {
 	return (
@@ -30,26 +33,26 @@ export default function ListTopEvents({data, navigation}) {
 				renderItem={({ item }) => (
 					<Box
 						bgColor={'coolGray.50'}
-						borderRadius={'md'}
-						shadow={'2'}
-						width={'48'}
+						borderRadius={'2xl'}
+						
+						width={'56'}
                         mx='2'
 						my='2'
 					>
 					<Pressable onPress={()=> navigation.push('DetailEvent', {id:item.id})}>
 					<VStack pb={'4'} justifyContent='space-between'>
-							<AspectRatio width='100%' ratio={1/1}>
+							<AspectRatio width='100%' ratio={4/3}>
 							<Image
-								borderTopRadius={'md'}
+								borderRadius={'2xl'}
 								source={{
 									uri: `https://bevent-admin.elitegroupe.net/storage/${item.image}`,
 								  }}
                                 alt={item?.titre}
 							/>
 							</AspectRatio>
-							<VStack pl='2'>
+							<VStack px='4'>
 							<Text
-								mt={'1'}
+								mt={'2'}
 								fontSize='sm'
 								_dark={{
 									color: "warmGray.50",
@@ -65,11 +68,17 @@ export default function ListTopEvents({data, navigation}) {
 									}}
 									color='coolGray.800'
 									bold
+									
 									fontSize={'md'}
+									isTruncated
 								>
 									{item.titre}
 								</Text>
 							</VStack>
+							<HStack alignItems={'center'} mx={'4'} py={'1'}>
+								<Icon mr={'2'} as={MaterialIcons} color={'coolGray.500'} name="place" size={'xs'} />
+								<Text fontSize={'xs'} isTruncated w={'90%'}>{`${item.ville} / ${item.lieu}`}</Text>
+							</HStack>
 						</VStack>
 					</Pressable>
 					</Box>

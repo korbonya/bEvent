@@ -51,7 +51,9 @@ export default function Tickets({ticketId, setTicketId, data}) {
 								{item.reference}
 							</Text>
 					
-						<Spacer />
+							<Box shadow={'0'} p={'0'} h='10' w='10' rounded={'full'} bgColor={'primary.500'} alignItems={'center'} justifyContent={'center'} >
+								{item.restant}
+							</Box>
 						<Text
 							fontSize='lg'
 							textAlign={'center'}

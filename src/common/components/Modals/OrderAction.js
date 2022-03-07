@@ -10,6 +10,7 @@ import {
 	Box,
 	Input,
 	useToast,
+	Icon,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -30,11 +31,15 @@ export default function OrderAction({
 		orderTicket,
 		{ isLoading, isSuccess, isError, error, data: response },
 	] = useOrderTicketMutation();
-	const { control, handleSubmit, formState: { errors } } = useForm({
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
 		defaultValues: {
-		  password: '',
-		}
-	  });
+			password: "",
+		},
+	});
 	const { isOpen, onOpen, onClose } = useDisclose();
 	const toast = useToast();
 	const [password, setPassword] = useState("");
@@ -81,7 +86,10 @@ export default function OrderAction({
 			password: data.password,
 		};
 		try {
-			const paylaod = await orderTicket({ id: eventId, ...submitData }).unwrap();
+			const paylaod = await orderTicket({
+				id: eventId,
+				...submitData,
+			}).unwrap();
 			console.log("response : ", paylaod);
 		} catch (error) {
 			console.log(error);
@@ -89,8 +97,23 @@ export default function OrderAction({
 	};
 	return (
 		<>
-			<Button mx={"5"} size={"lg"} mt={"0"} mb={"5"} onPress={onOpen}>
-				Commander ce ticket
+			<Button
+				endIcon={
+					<Box ml={'4'} bgColor={'primary.400'} p={'1'} rounded={'full'} >
+						<Icon color={'white'} as={MaterialIcons} name='shopping-cart' size='sm' />
+					</Box>
+				}
+				mx={"10"}
+				size={"lg"}
+				_text={{
+					fontSize:'xl'
+				}}
+				rounded={'xl'}
+				mt={"0"}
+				mb={"5"}
+				onPress={onOpen}
+			>
+				Acheter ce ticket
 			</Button>
 			<Actionsheet isOpen={isOpen} onClose={onClose}>
 				<Actionsheet.Content>
@@ -100,7 +123,7 @@ export default function OrderAction({
 								<Text fontSize='lg'>{title}</Text>
 								<Heading my={"2"} fontSize={"md"}>
 									{" "}
-									{selectTicket?.reference}
+									Ticket: {selectTicket?.reference}, {selectTicket?.prix} GNF
 								</Heading>
 							</Box>
 							<HStack justifyContent='space-between' alignItems={"center"}>
@@ -108,7 +131,9 @@ export default function OrderAction({
 									size='md'
 									variant='solid'
 									rounded={"full"}
-									mx='12'
+									disabled={nombre < 1}
+									bgColor={nombre < 1 ? "primary.50" : "primary.500"}
+									mx='5'
 									onPress={() => decrement()}
 									_icon={{
 										as: Feather,
@@ -116,14 +141,19 @@ export default function OrderAction({
 									}}
 								/>
 								<Text bold fontSize={"lg"}>
-									{nombre} tickets
+									{nombre} ticket{nombre > 1 && "s"}
 								</Text>
 
 								<IconButton
 									size='md'
 									variant='solid'
+									bgColor={
+										nombre >= selectTicket?.restant
+											? "primary.50"
+											: "primary.500"
+									}
 									rounded={"full"}
-									mx='12'
+									mx='5'
 									onPress={() => increment()}
 									_icon={{
 										as: MaterialIcons,
@@ -133,28 +163,33 @@ export default function OrderAction({
 							</HStack>
 
 							<Controller
-        control={control}
-        rules={{
-         required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-			<Input
-			type='password'
-			value={value}
-			onChangeText={onChange}
-			borderWidth={"1"}
-			mt={"5"}
-			px={"4"}
-			variant={"filled"}
-			size={"md"}
-			p={2}
-			placeholder='Entrez votre mot de passe...'
-		/>
-        )}
-        name="password"
-      />
-	  {errors.password && <Text color={'red.300'}> le mot de passe est obligatoire.</Text>}
-	  {error?.status == 500 && <Text color={'red.300'}>{error?.data?.error}</Text>}
+								control={control}
+								rules={{
+									required: true,
+								}}
+								render={({ field: { onChange, onBlur, value } }) => (
+									<Input
+										type='password'
+										value={value}
+										onChangeText={onChange}
+										borderWidth={"1"}
+										bgColor={"coolGray.100"}
+										mt={"5"}
+										px={"4"}
+										variant={"outline"}
+										size={"md"}
+										p={2}
+										placeholder='Entrez votre mot de passe...'
+									/>
+								)}
+								name='password'
+							/>
+							{errors.password && (
+								<Text color={"red.300"}> le mot de passe est obligatoire.</Text>
+							)}
+							{error?.status == 500 && (
+								<Text color={"red.300"}>{error?.data?.error}</Text>
+							)}
 
 							<HStack mt={"10"}>
 								<Button

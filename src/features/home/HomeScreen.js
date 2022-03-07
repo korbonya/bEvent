@@ -95,9 +95,9 @@ export default function HomeScreen({ navigation }) {
 
         <Box safeAreaTop />
 
-        <HStack bg='primary.50' px="1" py="3" justifyContent='space-between' alignItems='center'>
+        <HStack bg='gray.50' px="1" py="3" justifyContent='space-between' alignItems='center'>
           <HStack space="10" alignItems='center'>
-            <IconButton icon={<Icon size="sm" as={<MaterialIcons name='menu' />} color="black" />} />
+            <IconButton icon={<Icon size="sm" as={<MaterialIcons name='menu' />} color="gray.50" />} />
             {/* <Text color="white" fontSize="20" fontWeight='bold'>B-Event</Text> */}
           </HStack>
 		  <AspectRatio mt={'-30px'} w={'10'} h='12' >
@@ -118,14 +118,15 @@ export default function HomeScreen({ navigation }) {
 				<VStack
 					mx={"2"}
 					bg={"gray.100"}
-					pt={"5"}
+					
 					w='100%'
+					bgColor={'gray.100'}
 					space={2}
 					alignSelf='center'
 				>
 					<HStack>
 						<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-							<Button
+							{categories && <Button
 								onPress={() => setActiveCategorie("0")}
 								borderBottomWidth={activeCategorie === "0" ? "2" : "1"}
 								borderColor={
@@ -142,7 +143,7 @@ export default function HomeScreen({ navigation }) {
 								>
 									Tous
 								</Text>
-							</Button>
+							</Button>}
 							{categories?.map((item) => (
 								<Button
 									onPress={() => setActiveCategorie(item)}

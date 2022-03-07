@@ -19,6 +19,8 @@ export default function AutherEvents({ data, navigation, filter = "" }) {
 				base: "100%",
 				md: "25%",
 			}}
+
+			key={'keyOther'}
 		>
 			{data?.map((item) => (
 				<>
@@ -97,7 +99,7 @@ export default function AutherEvents({ data, navigation, filter = "" }) {
 							</Pressable>
 						</Box>
 					) : item.type == filter ? (
-						<Box key={item.id} bgColor='coolGray.50' my='2' mx='2' shadow='3'>
+						<Box key={'other'+item.id} bgColor='coolGray.50' my='2' mx='2' shadow='3'>
 								<Pressable
 								onPress={() => navigation.push("DetailEvent", { id: item.id })}
 							>
