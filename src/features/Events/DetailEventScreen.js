@@ -94,7 +94,7 @@ export default function DetailEventScreen({ route, navigation }) {
 							/>
 						</AspectRatio>
 						<VStack pb={"5"} px={"5"}>
-							<Heading mt={"8"} size='md' mb='4'>
+							<Heading mt={"8"} size='lg' mb='4'>
 								<Text mr={"2"}>{data?.titre}</Text>
 							</Heading>
 							{/* <Heading size={'lg'}>
@@ -104,98 +104,100 @@ export default function DetailEventScreen({ route, navigation }) {
 								</Heading> */}
 							<VStack space={"4"} pb={"8"} borderBottomWidth={"1"} my={"5"}>
 								<HStack>
+									<Box mr={'5'} p={'2'} rounded={'2xl'} bgColor={'primary.50'} justifyContent={'center'} >
 									<Icon
 										opacity={0.5}
 										fontWeight='light'
-										mr={"5"}
+										color={'primary.400'}
 										as={MaterialIcons}
 										name='calendar-today'
 									/>
-									<Box>
+									</Box>
+									<Box justifyContent={'center'} >
 										<Heading fontSize={"lg"} fontWeight={"bold"}>
-											{" "}
+											{"Du "}
 											{dformat(data?.date_debut, "ddd, Do MMM")}
-											{" - "}
-											{dformat(data?.date_fin, "ddd, Do MMM YY")}{" "}
+											{" Au "}
+											{/* {dformat(data?.date_fin, "ddd, Do MMM YY")}{" "} */}
 										</Heading>
 										<Text
 											color={"gray.500"}
 											fontWeight={"bold"}
 											fontSize={"md"}
 										>
-											{data?.heure_debut}
-											{" - "}
-											{data?.heure_fin}
+											{dformat(data?.date_fin, "ddd, Do MMM YY")}{" "}
 										</Text>
 									</Box>
-									{/* <Box>
-										<Heading fontSize={"lg"} fontWeight={"normal"}>
-											{" "}
-											
-										</Heading>
-										<Text fontSize={"md"}>{data?.heure_fin}</Text>
-									</Box> */}
+									
 								</HStack>
 								<HStack>
+									<Box mr={'5'} p={'2'} rounded={'2xl'} bgColor={'primary.50'} justifyContent={'center'} >
 									<Icon
 										opacity={0.5}
 										fontWeight='light'
-										mr={"5"}
+										color={'primary.400'}
 										as={MaterialIcons}
 										name='category'
 									/>
+									</Box>
 									<Box>
 										<Heading fontSize={"lg"} fontWeight={"bold"}>
-											Type
+										{data?.type}	
 										</Heading>
 										<Text
 											color={"gray.500"}
 											fontWeight={"bold"}
 											fontSize={"md"}
 										>
-											{data?.type}
+											Catégorie
 										</Text>
 									</Box>
 								</HStack>
 								<HStack>
+									<Box mr={'5'} p={'2'} rounded={'2xl'} bgColor={'primary.50'} justifyContent={'center'}>
 									<Icon
 										opacity={0.5}
 										fontWeight='light'
-										mr={"5"}
+										color={'primary.400'}
 										as={MaterialIcons}
 										name='where-to-vote'
 									/>
+									</Box>
 									<Box>
 										<Heading fontSize={"lg"} fontWeight={"bold"}>
-											Ville: {data?.ville}
+										{data?.lieu}
+											
 										</Heading>
 										<Text
 											color={"gray.500"}
 											fontWeight={"bold"}
 											fontSize={"md"}
 										>
-											Lieu: {""} {data?.lieu}
+											 {data?.ville}
 										</Text>
 									</Box>
 								</HStack>
 								<HStack>
-									<Icon
+									<Box mr={'5'} p={'2'} rounded={'2xl'} bgColor={'primary.50'} justifyContent={'center'}>
+										<Icon
 										opacity={0.5}
 										fontWeight='light'
-										mr={"5"}
+										color={'primary.400'}
 										as={MaterialIcons}
 										name='person'
 									/>
+									</Box>
+									
 									<Box>
 										<Heading fontSize={"lg"} fontWeight={"bold"}>
-											Organisateur
+										{data?.organisateur}
 										</Heading>
 										<Text
 											color={"gray.500"}
 											fontWeight={"bold"}
 											fontSize={"md"}
 										>
-											{data?.organisateur}
+											Organisateur
 										</Text>
 									</Box>
 								</HStack>

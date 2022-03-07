@@ -30,6 +30,9 @@ import logo from '../../../assets/images/logo.png'
 const wait = (timeout) => {
 	return new Promise((resolve) => setTimeout(resolve, timeout));
 };
+const Capitalize = (str) => {
+	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+}
 
 export default function HomeScreen({ navigation }) {
 	const [refreshing, setRefreshing] = React.useState(false);
@@ -157,7 +160,7 @@ export default function HomeScreen({ navigation }) {
 										color={"gray.700"}
 										fontWeight={activeCategorie === item ? "bold" : "medium"}
 									>
-										{(item)}
+										{Capitalize(item)}
 									</Text>
 								</Button>
 							))}

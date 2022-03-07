@@ -23,7 +23,7 @@ export default function EventCard({ data, navigation }) {
 				onPress={() => navigation.push("DetailEvent", { id: data.id })}
 			>
 				<VStack pb='5' space={3} justifyContent='space-between'>
-					<AspectRatio w='100%' ratio={4 / 3}>
+					<AspectRatio w='100%' ratio={16 / 9}>
 						<Image
 							source={{
 								uri: `https://bevent-admin.elitegroupe.net/storage/${data.image}`,

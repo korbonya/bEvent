@@ -1,25 +1,21 @@
-import React, {useEffect, useCallback} from "react";
+import React from "react";
 import { NativeBaseProvider, Box } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionSpecs } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./src/features/home/HomeScreen";
 import DetailEventScreen from "./src/features/Events/DetailEventScreen";
 import TicketsScreen from "./src/features/Tickets/TicketsScreen";
 import DetailTicket from "./src/features/Tickets/DetailTicket";
 import BalanceScreen from "./src/features/Solde/BalanceScreen";
-import WebViewScreen from './src/features/Solde/WebViewScreen'
+import WebViewScreen from "./src/features/Solde/WebViewScreen";
 import ProfilScreen from "./src/features/auth/ProfilScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import  SignupScreen  from "./src/features/auth/SignupScreen";
+import SignupScreen from "./src/features/auth/SignupScreen";
 import ValidationScreen from "./src/features/auth/ValidationScreen";
-import  LoginScreen  from "./src/features/auth/LoginScreen";
+import LoginScreen from "./src/features/auth/LoginScreen";
 import AuthScreen from "./src/features/auth/AuthScreen";
 import { store } from "./src/app/store";
-import { rootState } from "./src/app/store";
-import { setStoredUser } from "./src/features/auth/authSlice";
-import { getUser } from "./src/common/utils/secureStore";
-import { useLoginMutation } from "./src/features/auth/authApi";
 import { Provider, useSelector } from "react-redux";
 
 import { theme } from "./src/app/theme";
@@ -27,88 +23,195 @@ import { theme } from "./src/app/theme";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-
 function HomeTabs() {
-  const {isLoggedIn} = useSelector(state => state.auth)
-  console.log('the user is ', isLoggedIn)
-  return (
-    <Tab.Navigator
-    
-    screenOptions={({ route }) => ({
-      lazy:true,
-      tabBarStyle:{
-        backgroundColor:'#e6eafe',
-        height:75,
-        paddingBottom:5
-      },
-      tabBarLabelStyle:{
-        fontSize:16,
-        fontWeight:'700'
-      },
-      headerShown: false,
-      tabBarHideOnKeyboard:true,
-      tabBarIcon: ({ focused, color, size }) => {
-        let iconName;
+	const { isLoggedIn } = useSelector((state) => state.auth);
+	console.log("the user is ", isLoggedIn);
+	return (
+		<Tab.Navigator
+			screenOptions={({ route }) => ({
+				lazy: true,
 
-        if (route.name === "Accueil") {
-          iconName = focused
-            ? "home-variant"
-            : "home-thermometer-outline";
-        } else if (route.name === "Tickets") {
-          iconName = focused ? "ticket-account" : "ticket-account";
-        }
-        else if (route.name === "Solde") {
-          iconName = focused ? "wallet-giftcard" : "wallet-giftcard";
-        }
-        else if (route.name === "Compte") {
-          iconName = focused ? "account" : "account";
-        }
+				tabBarStyle: {
+					backgroundColor: "#e6eafe",
+					height: 75,
+					paddingBottom: 5,
+				},
+				tabBarLabelStyle: {
+					fontSize: 16,
+					fontWeight: "700",
+				},
+				headerShown: false,
+				tabBarHideOnKeyboard: true,
+				tabBarIcon: ({ focused, color, size }) => {
+					let iconName;
 
-        // You can return any component that you like here!
-        return <Box bgColor={focused?'primary.100':'transparent'} py={'1'} px={focused?'5':'0'} rounded={'3xl'}><MaterialCommunityIcons name={iconName} size={size} color={color} /></Box>;
-      },
-      tabBarActiveTintColor: "#0825dd",
-      tabBarInactiveTintColor: "gray",
-    })}
-  >
-    <Tab.Screen name='Accueil' component={HomeScreen} />
-    <Tab.Screen name='Tickets' component={isLoggedIn?TicketsScreen:AuthScreen} />
-    <Tab.Screen name='Solde' component={isLoggedIn?BalanceScreen:AuthScreen} />
-    <Tab.Screen name='Compte' component={isLoggedIn? ProfilScreen:AuthScreen} />
-  </Tab.Navigator>
-  );
+					if (route.name === "Accueil") {
+						iconName = focused ? "home-variant" : "home-thermometer-outline";
+					} else if (route.name === "Tickets") {
+						iconName = focused ? "ticket-account" : "ticket-account";
+					} else if (route.name === "Solde") {
+						iconName = focused ? "wallet-giftcard" : "wallet-giftcard";
+					} else if (route.name === "Compte") {
+						iconName = focused ? "account" : "account";
+					}
+
+					// You can return any component that you like here!
+					return (
+						<Box
+							bgColor={focused ? "primary.100" : "transparent"}
+							py={"1"}
+							px={focused ? "5" : "0"}
+							rounded={"3xl"}
+						>
+							<MaterialCommunityIcons
+								name={iconName}
+								size={size}
+								color={color}
+							/>
+						</Box>
+					);
+				},
+				tabBarActiveTintColor: "#0825dd",
+				tabBarInactiveTintColor: "gray",
+			})}
+		>
+			<Tab.Screen name='Accueil' component={HomeScreen} />
+			<Tab.Screen
+				name='Tickets'
+				component={isLoggedIn ? TicketsScreen : AuthScreen}
+			/>
+			<Tab.Screen
+				name='Solde'
+				component={isLoggedIn ? BalanceScreen : AuthScreen}
+			/>
+			<Tab.Screen
+				name='Compte'
+				component={isLoggedIn ? ProfilScreen : AuthScreen}
+			/>
+		</Tab.Navigator>
+	);
 }
 
 export default function App() {
-//   const user = useSelector(selectedUser)
-// const loggedIn = useSelector(isLoggedIn)
+	//   const user = useSelector(selectedUser)
+	// const loggedIn = useSelector(isLoggedIn)
 
-// console.log('it is the islgged :::', user)
+	// console.log('it is the islgged :::', user)
 
-	return (      
-  <Provider store={store}>
+	const config = {
+		animation: "spring",
+		config: {
+			stiffness: 1000,
+			damping: 500,
+			mass: 3,
+			overshootClamping: true,
+			restDisplacementThreshold: 0.01,
+			restSpeedThreshold: 0.01,
+		},
+	};
 
-		<NativeBaseProvider theme={theme}>
-      <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-            headerShown:false
-        }}
-        >
-      <Stack.Screen name="Home" component={HomeTabs} />
-      <Stack.Screen name="DetailEvent" component={DetailEventScreen} />
-      <Stack.Screen name="DetailTicket" component={DetailTicket} />
-      <Stack.Screen name='Signup' component={SignupScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name='Tickets' component={TicketsScreen} />
-      <Stack.Screen name='Balance' component={BalanceScreen} />
-      <Stack.Screen name="Validate" component={ValidationScreen} />
-      <Stack.Screen name="webview" component={WebViewScreen} />
-    </Stack.Navigator>
-
-			</NavigationContainer>
-		</NativeBaseProvider>      
-    
-  </Provider>
+	return (
+		<Provider store={store}>
+			<NativeBaseProvider theme={theme}>
+				<NavigationContainer>
+					<Stack.Navigator
+						screenOptions={{
+							headerShown: false,
+						}}
+					>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: TransitionSpecs.FadeInFromBottomAndroidSpec,
+									close: TransitionSpecs.FadeOutToBottomAndroidSpec,
+								},
+							}}
+							name='Home'
+							component={HomeTabs}
+						/>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: TransitionSpecs.FadeInFromBottomAndroidSpec,
+									close: TransitionSpecs.FadeOutToBottomAndroidSpec,
+								},
+							}}
+							name='DetailEvent'
+							component={DetailEventScreen}
+						/>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: config,
+									close: config,
+								},
+							}}
+							name='DetailTicket'
+							component={DetailTicket}
+						/>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: TransitionSpecs.FadeInFromBottomAndroidSpec,
+									close: TransitionSpecs.FadeOutToBottomAndroidSpec,
+								},
+							}}
+							name='Signup'
+							component={SignupScreen}
+						/>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: TransitionSpecs.FadeInFromBottomAndroidSpec,
+									close: TransitionSpecs.FadeOutToBottomAndroidSpec,
+								},
+							}}
+							name='Login'
+							component={LoginScreen}
+						/>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: config,
+									close: config,
+								},
+							}}
+							name='Tickets'
+							component={TicketsScreen}
+						/>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: config,
+									close: config,
+								},
+							}}
+							name='Balance'
+							component={BalanceScreen}
+						/>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: config,
+									close: config,
+								},
+							}}
+							name='Validate'
+							component={ValidationScreen}
+						/>
+						<Stack.Screen
+							options={{
+								transitionSpec: {
+									open: config,
+									close: config,
+								},
+							}}
+							name='webview'
+							component={WebViewScreen}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			</NativeBaseProvider>
+		</Provider>
 	);
 }
