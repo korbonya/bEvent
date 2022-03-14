@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Dimensions, TouchableOpacity, View } from "react-native";
-
+import {FontAwesome} from '@expo/vector-icons'
 import {
   Box,
   Text,
@@ -84,13 +84,7 @@ export default function TicketsScreen({ navigation }) {
                       <HStack pr={"2"} space={3}>
                         {/* <Avatar size="48px" source={{ uri: item.avatarUrl }} /> */}
                         <VStack>
-                          <Text
-                            color='coolGray.800'
-                            _dark={{ color: "warmGray.50" }}
-                            bold
-                          >
-                            {item?.type}
-                          </Text>
+                          
                           <Text
                             color='primary.700'
                             bold
@@ -99,24 +93,25 @@ export default function TicketsScreen({ navigation }) {
                           >
                             {item.evenement}
                           </Text>
-                          <Text mt={"4"}>Date:</Text>
-                          <Text bold>{item.date}</Text>
-                        </VStack>
-                        <Spacer />
-                        <VStack>
+                          <HStack>
                           <Text
-                            fontSize='xs'
+                           fontSize={'md'}
                             color='coolGray.800'
                             _dark={{ color: "warmGray.50" }}
                             alignSelf='flex-start'
                           >
-                            Prix
+                            Ticket {item?.type} à : 
                           </Text>
                           <Text bold fontSize={"md"}>
                             {item?.montant + " GNF"}
                           </Text>
                           {/* <Button variant={'outline'} mt={'4'}>Carte</Button> */}
+                        </HStack>
+                          
+                          <Text bold>{item.date}</Text>
                         </VStack>
+                        <Spacer />
+                      
                       </HStack>
                     </Box>
                   </Pressable>
