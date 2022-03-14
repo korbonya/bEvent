@@ -128,7 +128,7 @@ export default function BalanceScreen({ navigation }) {
 						{data?.recharges?.map((data, i) => (
 							<Box
 								key={i}
-								bgColor={"coolGray.100"}
+								bgColor={"coolGray.50"}
 								my='1'
 								_dark={{
 									borderColor: "gray.600",
@@ -136,6 +136,7 @@ export default function BalanceScreen({ navigation }) {
 								pl='4'
 								pr='5'
 								py='5'
+								shadow={0}
 								borderRadius={"xl"}
 							>
 								<HStack

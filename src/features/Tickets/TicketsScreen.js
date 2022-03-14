@@ -40,8 +40,9 @@ export default function TicketsScreen({ navigation }) {
 
   useEffect(async ()=> {
     if(error){
-      await deleteUser()
-      dispatch(forceLogout())
+      console.log(error)
+      // await deleteUser()
+      // dispatch(forceLogout())
     //   navigation.push('Login')
     }
   },[error])
@@ -73,6 +74,7 @@ export default function TicketsScreen({ navigation }) {
                   shadow={"0"}
                   bgColor={"coolGray.50"}
                   my='2'
+                  mx={'2'}
                   borderRadius='lg'
                 >
                   <Pressable
@@ -93,22 +95,52 @@ export default function TicketsScreen({ navigation }) {
                           >
                             {item.evenement}
                           </Text>
-                          <HStack>
+                          <HStack alignItems={'center'}>
+                            <Icon
+                            opacity={0.7}
+                            fontWeight='light'
+                            size={'xs'}
+                            mr={'1'}
+                            color='primary'
+                            as={FontAwesome}
+                            name='ticket'
+                            />
                           <Text
                            fontSize={'md'}
                             color='coolGray.800'
                             _dark={{ color: "warmGray.50" }}
                             alignSelf='flex-start'
                           >
-                            Ticket {item?.type} à : 
+                          {item?.type}
                           </Text>
+                          <Icon
+                            opacity={0.7}
+                            fontWeight='light'
+                            size={'xs'}
+                            ml={'8'}
+                            mr={'1'}
+                            color='primary'
+                            as={FontAwesome}
+                            name='money'
+                            />
                           <Text bold fontSize={"md"}>
                             {item?.montant + " GNF"}
                           </Text>
                           {/* <Button variant={'outline'} mt={'4'}>Carte</Button> */}
                         </HStack>
                           
-                          <Text bold>{item.date}</Text>
+                          <HStack alignItems={'center'}>
+                            <Icon
+                              opacity={0.7}
+                              fontWeight='light'
+                              mr={'1'}
+                              size={'xs'}
+                              color='primary'
+                              as={FontAwesome}
+                              name='calendar'
+                              />
+                            <Text bold>{item.date}</Text>
+                          </HStack>
                         </VStack>
                         <Spacer />
                       
