@@ -12,7 +12,8 @@ import {
 	useDisclose,
 	Button,
 	Spinner,
-	Icon
+	Icon,
+	Image
 } from "native-base";
 import {RefreshControl} from 'react-native'
 import { Ionicons } from '@expo/vector-icons'; 
@@ -23,6 +24,7 @@ import { forceLogout } from "../auth/authSlice";
 import AppBar2 from "../../common/components/headers/AppBar2";
 import { useProvideBalanceMutation, useGetBalanceQuery } from "./balanceApi";
 import { deleteUser } from "../../common/utils/secureStore";
+import orange from '../../../assets/images/orange.png'
 
 export default function BalanceScreen({navigation}) {
 	const dispatch = useDispatch()
@@ -96,6 +98,7 @@ export default function BalanceScreen({navigation}) {
 							borderRadius={'xl'}
 						>
 							<HStack space={3} justifyContent='space-between'>
+								<Image src={orange} />
 								<VStack>
 									<Text
 										_dark={{
@@ -116,13 +119,14 @@ export default function BalanceScreen({navigation}) {
 									</Text>
 								</VStack>
 								<Spacer />
+								<VStack alignItems={'flex-end'}>
 								{data.statuts == -1 ?<Text
 									fontSize='xs'
 									_dark={{
 										color: "warmGray.50",
 									}}
 									color='red.600'
-									alignSelf='flex-start'
+									alignSelf='flex-end'
 								>
 									annulée
 								</Text>:data.statuts === 0 ?<Text
@@ -131,7 +135,7 @@ export default function BalanceScreen({navigation}) {
 										color: "warmGray.50",
 									}}
 									color='gray.600'
-									alignSelf='flex-start'
+									alignSelf='flex-end'
 								>
 									En attente
 								</Text>:<Text
@@ -140,12 +144,21 @@ export default function BalanceScreen({navigation}) {
 										color: "warmGray.50",
 									}}
 									color='green.600'
-									alignSelf='flex-start'
+									alignSelf='flex-end'
 								>
 									succès
 								</Text>
-
 								}
+
+<Text
+										color='coolGray.600'
+										_dark={{
+											color: "warmGray.200",
+										}}
+									>
+										{data?.date}
+									</Text>
+								</VStack>
 							</HStack>
 						</Box>
 					))}
@@ -169,10 +182,10 @@ export default function BalanceScreen({navigation}) {
 							</Text>
 						</Box>
 						<Actionsheet.Item w={'full'} justifyContent={'center'} >
-							<Input placeholder="Montant" keyboardType="numeric" size={'lg'}  variant={'filled'} w={'80'} value={montant} onChangeText={(val) => setMontant(val)} placeholder="Montant de la recharge"/>
+							<Input placeholder="Montant" keyboardType="numeric" size={'lg'}  variant={'filled'} w={'80'} value={montant} onChangeText={(val) => setMontant(val)}/>
 						</Actionsheet.Item>
 						<Actionsheet.Item justifyContent={'center'}>
-							<Input placeholder="Mot de passe" type="password" size={'lg'} variant={'filled'} w={'80'}  value={password} onChangeText={(val)=> setPassword(val)} placeholder="Mot de passe"/>
+							<Input placeholder="Mot de passe" type="password" size={'lg'} variant={'filled'} w={'80'}  value={password} onChangeText={(val)=> setPassword(val)}/>
 						</Actionsheet.Item>
 						<Button  isLoading={loadProvide} disabled={loadProvide||montant===""||password===''} px={'10'} onPress={async () => provideBalance({montant, password})}>Valider</Button>
 					</Actionsheet.Content>

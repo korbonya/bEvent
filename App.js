@@ -23,10 +23,11 @@ import { theme } from "./src/app/theme";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+// eas build -p android --profile preview
 
 function HomeTabs() {
   
-  SystemUI.setBackgroundColorAsync("red");
+  // SystemUI.setBackgroundColorAsync("red");
 	const { isLoggedIn } = useSelector((state) => state.auth);
 	console.log("the user is ", isLoggedIn);
 	return (
